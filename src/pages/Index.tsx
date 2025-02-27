@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -7,67 +6,56 @@ import PaymentMethods from "@/components/PaymentMethods";
 import FoodItem from "@/components/FoodItem";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-
 export default function Index() {
-  const { translations } = useLanguage();
+  const {
+    translations
+  } = useLanguage();
   const aboutRef = useRef<HTMLDivElement>(null);
   const specialsRef = useRef<HTMLDivElement>(null);
-  
+
   // Intersection Observer for animations
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-          }
-        });
-      },
-      {
-        threshold: 0.1
-      }
-    );
-    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
     const sections = document.querySelectorAll(".fade-in-section");
-    sections.forEach((section) => {
+    sections.forEach(section => {
       observer.observe(section);
     });
-    
     return () => {
-      sections.forEach((section) => {
+      sections.forEach(section => {
         observer.unobserve(section);
       });
     };
   }, []);
-  
-  const featuredItems = [
-    {
-      name: "Lomo Saltado",
-      description: "Stir-fried beef with onions, tomatoes, and french fries, served with rice.",
-      price: "$24",
-      image: "https://images.unsplash.com/photo-1662116765994-1e4200c43589?q=80&w=1974&auto=format&fit=crop",
-      category: "Signature",
-      featured: true
-    },
-    {
-      name: "Ceviche Clásico",
-      description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
-      price: "$22",
-      image: "https://images.unsplash.com/photo-1632789395770-20e6f63be806?q=80&w=1924&auto=format&fit=crop",
-      category: "Popular",
-      featured: true
-    },
-    {
-      name: "Ají de Gallina",
-      description: "Creamy chicken stew with Peruvian yellow peppers, served over rice with boiled potatoes and olives.",
-      price: "$20",
-      image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1974&auto=format&fit=crop",
-      featured: true
-    }
-  ];
-  
-  return (
-    <main>
+  const featuredItems = [{
+    name: "Lomo Saltado",
+    description: "Stir-fried beef with onions, tomatoes, and french fries, served with rice.",
+    price: "$24",
+    image: "https://images.unsplash.com/photo-1662116765994-1e4200c43589?q=80&w=1974&auto=format&fit=crop",
+    category: "Signature",
+    featured: true
+  }, {
+    name: "Ceviche Clásico",
+    description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
+    price: "$22",
+    image: "https://images.unsplash.com/photo-1632789395770-20e6f63be806?q=80&w=1924&auto=format&fit=crop",
+    category: "Popular",
+    featured: true
+  }, {
+    name: "Ají de Gallina",
+    description: "Creamy chicken stew with Peruvian yellow peppers, served over rice with boiled potatoes and olives.",
+    price: "$20",
+    image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1974&auto=format&fit=crop",
+    featured: true
+  }];
+  return <main>
       <Hero />
       
       {/* About section */}
@@ -96,11 +84,7 @@ export default function Index() {
             </div>
             <div className="relative lg:order-2">
               <div className="rounded-lg overflow-hidden shadow-lg">
-                <img 
-                  src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Restaurant interior" 
-                  className="w-full h-auto object-cover"
-                />
+                <img alt="Restaurant interior" src="/lovable-uploads/c1fd1132-3aa9-4e9d-aac6-8f24ce901894.jpg" className="w-full h-auto object-none" />
               </div>
               <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-primary/10 rounded-full -z-10"></div>
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-secondary/10 rounded-full -z-10"></div>
@@ -126,17 +110,7 @@ export default function Index() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {featuredItems.map((item, index) => (
-              <FoodItem 
-                key={index}
-                name={item.name}
-                description={item.description}
-                price={item.price}
-                image={item.image}
-                category={item.category}
-                featured={item.featured}
-              />
-            ))}
+            {featuredItems.map((item, index) => <FoodItem key={index} name={item.name} description={item.description} price={item.price} image={item.image} category={item.category} featured={item.featured} />)}
           </div>
           
           <div className="text-center mt-8">
@@ -198,6 +172,5 @@ export default function Index() {
       
       {/* Payment Methods */}
       <PaymentMethods />
-    </main>
-  );
+    </main>;
 }
