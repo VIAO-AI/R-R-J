@@ -69,7 +69,7 @@ export default function Index() {
               <h2 className="font-display text-3xl md:text-4xl font-semibold leading-tight">
                 {translations.about.title}
               </h2>
-              <p className="text-muted-foreground">
+              <p className="El Rinc\xF3n de Jorgito began with a simple vision: to share Peru's rich culinary heritage with San Francisco. Our restaurant combines traditional techniques with locally sourced ingredients to create an authentic yet innovative dining experience. ">
                 {translations.about.story}
               </p>
               <p className="text-muted-foreground">
