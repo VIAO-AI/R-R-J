@@ -1,39 +1,32 @@
-
 import { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-
 export default function About() {
-  const { translations } = useLanguage();
-  
+  const {
+    translations
+  } = useLanguage();
+
   // Intersection Observer for animations
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-          }
-        });
-      },
-      {
-        threshold: 0.1
-      }
-    );
-    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
     const sections = document.querySelectorAll(".fade-in-section");
-    sections.forEach((section) => {
+    sections.forEach(section => {
       observer.observe(section);
     });
-    
     return () => {
-      sections.forEach((section) => {
+      sections.forEach(section => {
         observer.unobserve(section);
       });
     };
   }, []);
-
-  return (
-    <main className="pt-20">
+  return <main className="pt-20">
       <div className="bg-muted/50 py-20">
         <div className="container text-center max-w-3xl mx-auto">
           <p className="text-sm font-medium tracking-wider text-primary uppercase">
@@ -66,11 +59,7 @@ export default function About() {
             </div>
             <div className="relative">
               <div className="rounded-lg overflow-hidden shadow-md">
-                <img 
-                  src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Restaurant interior" 
-                  className="w-full h-auto object-cover"
-                />
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop" alt="Restaurant interior" className="w-full h-auto object-cover" />
               </div>
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full -z-10"></div>
             </div>
@@ -84,26 +73,16 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1 relative">
               <div className="rounded-lg overflow-hidden shadow-md">
-                <img 
-                  src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Chef Jorge Mendoza" 
-                  className="w-full h-auto object-cover"
-                />
+                
               </div>
               <div className="absolute -top-4 -left-4 w-32 h-32 bg-secondary/10 rounded-full -z-10"></div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="font-display text-3xl font-semibold mb-6">{translations.about.chef}</h2>
+              
               <div className="space-y-4 text-muted-foreground">
-                <p>{translations.about.chefDesc}</p>
-                <p>
-                  Jorge's approach to cooking is deeply rooted in respect for ingredients and 
-                  traditional techniques, while embracing innovation that highlights the unique flavors of Peru.
-                </p>
-                <p>
-                  "My greatest joy is seeing diners experience Peruvian cuisine for the first time 
-                  and watching their faces light up with each new flavor they discover."
-                </p>
+                
+                
+                
               </div>
             </div>
           </div>
@@ -174,11 +153,7 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-lg overflow-hidden shadow-sm">
-              <img 
-                src="https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop" 
-                alt="Peruvian Andes" 
-                className="w-full h-64 object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop" alt="Peruvian Andes" className="w-full h-64 object-cover" />
               <div className="p-4">
                 <h3 className="font-display text-lg font-medium mb-2">The Andes</h3>
                 <p className="text-sm text-muted-foreground">
@@ -188,11 +163,7 @@ export default function About() {
             </div>
             
             <div className="rounded-lg overflow-hidden shadow-sm">
-              <img 
-                src="https://images.unsplash.com/photo-1518128958364-65859d70aa41?q=80&w=1974&auto=format&fit=crop" 
-                alt="Peruvian Coast" 
-                className="w-full h-64 object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1518128958364-65859d70aa41?q=80&w=1974&auto=format&fit=crop" alt="Peruvian Coast" className="w-full h-64 object-cover" />
               <div className="p-4">
                 <h3 className="font-display text-lg font-medium mb-2">The Coast</h3>
                 <p className="text-sm text-muted-foreground">
@@ -202,11 +173,7 @@ export default function About() {
             </div>
             
             <div className="rounded-lg overflow-hidden shadow-sm">
-              <img 
-                src="https://images.unsplash.com/photo-1551041777-575d3b3a21ae?q=80&w=2070&auto=format&fit=crop" 
-                alt="Peruvian Amazon" 
-                className="w-full h-64 object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1551041777-575d3b3a21ae?q=80&w=2070&auto=format&fit=crop" alt="Peruvian Amazon" className="w-full h-64 object-cover" />
               <div className="p-4">
                 <h3 className="font-display text-lg font-medium mb-2">The Amazon</h3>
                 <p className="text-sm text-muted-foreground">
@@ -217,6 +184,5 @@ export default function About() {
           </div>
         </div>
       </section>
-    </main>
-  );
+    </main>;
 }
