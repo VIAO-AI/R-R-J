@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -77,10 +76,7 @@ export default function Index() {
                 Each dish tells a story of Peru's diverse cultural influences, from indigenous Andean traditions to Spanish, African, Chinese and Japanese cuisines that have shaped Peru's culinary landscape.
               </p>
               <Button asChild variant="outline" className="mt-4">
-                <Link to="/about">
-                  {translations.about.chef}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                
               </Button>
             </div>
             <div className="relative lg:order-2">
