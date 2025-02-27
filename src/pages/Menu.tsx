@@ -38,7 +38,7 @@ export default function Menu() {
       name: "Ceviche Clásico",
       description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
       price: "$22",
-      image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1974&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1632789395770-20e6f63be806?q=80&w=1924&auto=format&fit=crop"
     },
     {
       name: "Causa Limeña",
@@ -62,7 +62,7 @@ export default function Menu() {
       name: "Lomo Saltado",
       description: "Stir-fried beef with onions, tomatoes, and french fries, served with rice.",
       price: "$24",
-      image: "https://images.unsplash.com/photo-1633321702518-7feccafb94d5?q=80&w=1974&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1662116765994-1e4200c43589?q=80&w=1974&auto=format&fit=crop"
     },
     {
       name: "Ají de Gallina",
@@ -78,7 +78,7 @@ export default function Menu() {
       name: "Seco de Cordero",
       description: "Slow-cooked lamb stew with cilantro sauce, served with beans and rice.",
       price: "$28",
-      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1770&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1598515214146-dab39da1243d?q=80&w=2070&auto=format&fit=crop"
     },
     {
       name: "Tacu Tacu con Lomo",
@@ -97,7 +97,7 @@ export default function Menu() {
       name: "Picarones",
       description: "Sweet potato and pumpkin donuts served with fig syrup.",
       price: "$10",
-      image: "https://images.unsplash.com/photo-1601312540037-095ace5cecd7?q=80&w=1777&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1630939927113-21ef47d756db?q=80&w=1972&auto=format&fit=crop"
     },
     {
       name: "Alfajores",
@@ -116,7 +116,7 @@ export default function Menu() {
       name: "Chicha Morada",
       description: "Traditional Peruvian purple corn drink with pineapple, cinnamon, and cloves.",
       price: "$6",
-      image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=1887&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1589816566694-60fccd7c3f30?q=80&w=1974&auto=format&fit=crop"
     },
     {
       name: "Inca Kola",

@@ -45,7 +45,7 @@ export default function Index() {
       name: "Lomo Saltado",
       description: "Stir-fried beef with onions, tomatoes, and french fries, served with rice.",
       price: "$24",
-      image: "https://images.unsplash.com/photo-1633321702518-7feccafb94d5?q=80&w=1974&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1662116765994-1e4200c43589?q=80&w=1974&auto=format&fit=crop",
       category: "Signature",
       featured: true
     },
@@ -53,7 +53,7 @@ export default function Index() {
       name: "Ceviche Clásico",
       description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
       price: "$22",
-      image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1974&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1632789395770-20e6f63be806?q=80&w=1924&auto=format&fit=crop",
       category: "Popular",
       featured: true
     },
@@ -61,7 +61,7 @@ export default function Index() {
       name: "Ají de Gallina",
       description: "Creamy chicken stew with Peruvian yellow peppers, served over rice with boiled potatoes and olives.",
       price: "$20",
-      image: "https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?q=80&w=1974&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1974&auto=format&fit=crop",
       featured: true
     }
   ];
@@ -97,7 +97,7 @@ export default function Index() {
             <div className="relative lg:order-2">
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img 
-                  src="https://images.unsplash.com/photo-1498654200943-1088ed4eeac3?q=80&w=1970&auto=format&fit=crop" 
+                  src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop" 
                   alt="Restaurant interior" 
                   className="w-full h-auto object-cover"
                 />
