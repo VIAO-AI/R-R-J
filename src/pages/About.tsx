@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 export default function About() {
@@ -48,8 +49,8 @@ export default function About() {
             <div>
               <h2 className="font-display text-3xl font-semibold mb-6">Our Story</h2>
               <div className="space-y-4 text-muted-foreground">
-                <p>{translations.about.story}</p>
-                <p>{translations.about.vision}</p>
+                <p>El Rincón de Jorgito began with a simple vision: to share Peru's rich culinary heritage with San Francisco. Our restaurant combines traditional techniques with locally sourced ingredients to create an authentic yet innovative dining experience.</p>
+                <p>Each dish tells a story of Peru's diverse cultural influences, from indigenous Andean traditions to Spanish, African, Chinese and Japanese cuisines that have shaped Peru's culinary landscape.</p>
                 <p>
                   What began as a small family-owned eatery has grown into one of San Francisco's most beloved 
                   destinations for Peruvian cuisine, while still maintaining the warmth and personal touch 
