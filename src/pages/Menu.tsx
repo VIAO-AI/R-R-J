@@ -34,25 +34,28 @@ observer.unobserve(section);
 
 const appetizers = [
 {
-name: "Clasic Ceviche",
-description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
-price: "$22",
+name: "Ceviche Rincón",
+description: "House Special Ceviche with diced white fish, octopus, shrimp, calamari, crab meat and crab legs, marinated in lime juice and Peruvian rocoto pepper with House Special Sauce. Served with yam, Peruvian corn and toasted corn. (Request mild or spicy)",
+price: "$40",
 image: "https://images.unsplash.com/photo-1741125564840-304ebe16f2cb?q=80&w=1978&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 },
 {
-name: "Causa Limeña",
-description: "Layered potato dish with chicken salad, avocado, and botija olives.",
-price: "$16"
+name: "Fish Leche De Tigre",
+description: "Tiger's milk is a citrus-infused marinade crafted from lime juice, fish juices, red onions, and cilantro. White fish Leche de Tigre served with yam, fried fish, calamari and shrimp, Peruvian corn and toasted corn. (Request mild or spicy).",
+price: "$25",
+image: "https://images.unsplash.com/photo-1741127988909-0baca005723f?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 },
 {
-  name: "Anticuchos de Corazón",
-description: "Grilled beef heart skewers with chimichurri sauce.",
-price: "$18"
+  name: "Pasta Pesto with Steak",
+description: "Peruvian Pasta Pesto (white cheese, spinach and basil leaves) Served with Steak",
+price: "$32",
+image: "https://images.unsplash.com/photo-1741128836932-600a0c52a5e3?q=80&w=1719&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 },
 {
-name: "Papas a la Huancaína",
-description: "Potatoes topped with a creamy, spicy cheese sauce.",
-price: "$14"
+name: "Mariscos a la Chálala",
+description: "Mixed seafood with Peruvian corn served with lemon juice and a touch of rocoto.",
+price: "$18",
+image: "https://images.unsplash.com/photo-1741130464258-c4cd58ec7d41?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
 }
 ];
 
