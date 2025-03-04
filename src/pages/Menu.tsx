@@ -38,7 +38,7 @@ export default function Menu() {
       name: "Ceviche Clásico",
       description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
       price: "$22",
-      image: "https://images.unsplash.com/photo-1632789395770-20e6f63be806?q=80&w=1924&auto=format&fit=crop"
+      image: "https://unsplash.com/es/fotos/una-persona-sosteniendo-una-tarjeta-de-credito-cerca-de-una-computadora-portatil-6Pz_xJz2u1s"
     },
     {
       name: "Causa Limeña",
