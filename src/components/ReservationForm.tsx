@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -17,12 +16,13 @@ export default function ReservationForm() {
   const { translations } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [reservationType, setReservationType] = useState<"table" | "event">("table");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       toast({
@@ -30,25 +30,41 @@ export default function ReservationForm() {
         description: "We'll confirm your reservation shortly via email.",
       });
       setIsSubmitting(false);
-      
+
       // Reset form - in a real app, you'd use a form library like react-hook-form
       const form = e.target as HTMLFormElement;
       form.reset();
       setDate(undefined);
+      setReservationType("table"); // Reset to default reservation type
     }, 1500);
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Reservation Type */}
+      <div className="space-y-2">
+        <Label htmlFor="reservation-type">Reservation Type</Label>
+        <Select value={reservationType} onValueChange={(value) => setReservationType(value as "table" | "event")}>
+          <SelectTrigger className="bg-card">
+            <SelectValue placeholder="Select reservation type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="table">Table Reservation</SelectItem>
+            <SelectItem value="event">Event Reservation</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Common Fields for Both Reservation Types */}
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Name */}
           <div className="space-y-2">
             <Label htmlFor="name">{translations.contact.nameLabel}</Label>
-            <Input 
-              id="name" 
-              name="name" 
-              required 
+            <Input
+              id="name"
+              name="name"
+              required
               className="bg-card"
               placeholder="John Doe"
             />
@@ -57,11 +73,11 @@ export default function ReservationForm() {
           {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">{translations.contact.emailLabel}</Label>
-            <Input 
-              id="email" 
-              name="email" 
-              type="email" 
-              required 
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
               className="bg-card"
               placeholder="john.doe@example.com"
             />
@@ -143,17 +159,67 @@ export default function ReservationForm() {
         {/* Special Requests */}
         <div className="space-y-2">
           <Label htmlFor="message">{translations.contact.messageLabel}</Label>
-          <Textarea 
-            id="message" 
-            name="message" 
+          <Textarea
+            id="message"
+            name="message"
             className="min-h-[120px] resize-y bg-card"
             placeholder="Any dietary restrictions or special occasions?"
           />
         </div>
       </div>
 
-      <Button 
-        type="submit" 
+      {/* Event-Specific Fields */}
+      {reservationType === "event" && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Event Details</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Event Type */}
+            <div className="space-y-2">
+              <Label htmlFor="event-type">Event Type</Label>
+              <Select required>
+                <SelectTrigger className="bg-card">
+                  <SelectValue placeholder="Select event type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="birthday">Birthday Party</SelectItem>
+                  <SelectItem value="wedding">Wedding</SelectItem>
+                  <SelectItem value="corporate">Corporate Meeting</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Number of Attendees */}
+            <div className="space-y-2">
+              <Label htmlFor="attendees">Number of Attendees</Label>
+              <Input
+                id="attendees"
+                name="attendees"
+                type="number"
+                min="1"
+                required
+                className="bg-card"
+                placeholder="Enter number of attendees"
+              />
+            </div>
+          </div>
+
+          {/* Additional Event Details */}
+          <div className="space-y-2">
+            <Label htmlFor="event-description">Additional Details</Label>
+            <Textarea
+              id="event-description"
+              name="event-description"
+              className="min-h-[120px] resize-y bg-card"
+              placeholder="Describe your event requirements..."
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <Button
+        type="submit"
         className="w-full btn-hover"
         disabled={isSubmitting}
       >
