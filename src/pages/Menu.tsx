@@ -37,7 +37,7 @@ const appetizers = [
 name: "Clasic Ceviche",
 description: "Fresh fish marinated in lime juice with red onions, sweet potato, and Peruvian corn.",
 price: "$22",
-image: "https://images.unsplash.com/photo-1632789395770-20e6f63be806?q=80&amp;w=1924&amp;auto=format&amp;fit=crop "
+image: "https://images.unsplash.com/photo-1741125564840-304ebe16f2cb?q=80&w=1978&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 },
 {
 name: "Causa Limeña",
