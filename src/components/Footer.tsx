@@ -1,6 +1,5 @@
-
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react"; // Eliminamos Twitter
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
@@ -18,14 +17,21 @@ export default function Footer() {
               Authentic Peruvian cuisine serving the finest traditional dishes with modern presentations.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Facebook">
+              {/* Facebook link */}
+              <a
+                href="https://www.facebook.com/share/1JjGcxvpwM"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Facebook"
+              >
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
+              {/* Instagram link */}
+              <a
+                href="https://www.instagram.com/restaurantrincondejorgito?igsh=cHNhbmhvMHNlb205"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Instagram"
+              >
                 <Instagram className="h-5 w-5" />
-              </a>
-              <a href="https://twitter.com" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Twitter">
-                <Twitter className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -54,22 +60,37 @@ export default function Footer() {
             <h4 className="text-sm font-semibold uppercase tracking-wider">Contact Us</h4>
             <div className="space-y-3 text-sm text-muted-foreground">
               <p>{translations.contact.address}</p>
-              <p>{translations.contact.phoneNumber}</p>
-              <p>{translations.contact.emailAddress}</p>
+              {/* Updated phone number */}
+              <p>(415) 609-5160</p>
+              {/* Updated email address */}
+              <p>info@restaurantrincondejorgito.com</p>
               <div className="space-y-1">
                 <p className="font-medium text-foreground">{translations.contact.hours}</p>
-                <p>{translations.contact.weekdays}</p>
-                <p>{translations.contact.weekend}</p>
+                {/* Updated opening hours */}
+                <p>Sun 12:00 pm - 7:00 pm</p>
+                <p>Tue 11:00 am - 8:00 pm</p>
+                <p>Wed 11:00 am - 8:00 pm</p>
+                <p>Thu 11:00 am - 10:00 pm</p>
+                <p>Fri 11:00 am - 10:00 pm</p>
+                <p>Sat 12:00 pm - 10:00 pm</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Copyright */}
+        {/* Copyright and attribution */}
         <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center">
+          {/* Left side: Copyright */}
           <p className="text-sm text-muted-foreground mb-4 sm:mb-0">
             &copy; {currentYear} El Rincón de Jorgito. {translations.footer.rights}.
           </p>
+
+          {/* Center: Attribution */}
+          <p className="text-sm text-muted-foreground mb-4 sm:mb-0">
+            ❤️ Designed and developed by Angel Nerozzi ❤️
+          </p>
+
+          {/* Right side: Privacy and Terms */}
           <div className="flex space-x-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               {translations.footer.privacy}
