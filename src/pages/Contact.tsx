@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MapPin, Clock, Phone, Mail } from "lucide-react";
-import emailjs from "@emailjs/browser"; // Usamos @emailjs/browser
 
 export default function Contact() {
   const { translations } = useLanguage();
@@ -29,27 +28,53 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Configuración de EmailJS
-    const serviceID = "service_9yaxh2k"; // Service ID proporcionado
-    const templateID = "template_9yaxh2k"; // Template ID proporcionado
-    const userID = "user_9yaxh2k"; // Public Key proporcionada
+    // Configuración de Resend
+    const resendApiKey = "re_FaTtpd3V_CSH8uzReGEeP5bWjPebNMxnb"; // Tu API Key de Resend
+    const resendEndpoint = "https://api.resend.com/emails";
+
+    // Plantilla de correo
+    const emailContent = `
+      <h1>Nueva Reserva</h1>
+      <p><strong>Nombre:</strong> ${formData.name}</p>
+      <p><strong>Correo:</strong> ${formData.email}</p>
+      <p><strong>Fecha:</strong> ${formData.date}</p>
+      <p><strong>Hora:</strong> ${formData.time}</p>
+      <p><strong>Invitados:</strong> ${formData.guests}</p>
+      <p><strong>Mensaje:</strong> ${formData.message}</p>
+    `;
 
     try {
-      // Enviar el formulario usando EmailJS
-      await emailjs.send(serviceID, templateID, formData, userID);
-
-      // Notificar al usuario que el envío fue exitoso
-      alert("Reservation submitted successfully! We'll contact you shortly.");
-
-      // Resetear el formulario
-      setFormData({
-        name: "",
-        email: "",
-        date: "",
-        time: "",
-        guests: "",
-        message: "",
+      // Enviar el correo usando Resend
+      const response = await fetch(resendEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${resendApiKey}`,
+        },
+        body: JSON.stringify({
+          from: "El Rincón de Jorgito <restaurantdejorgitoadm@gmail.com>", // Remitente fijo
+          to: formData.email, // Destinatario dinámico (correo del usuario)
+          subject: "Confirmación de Reserva", // Asunto del correo
+          html: emailContent, // Contenido del correo en HTML
+        }),
       });
+
+      if (response.ok) {
+        // Notificar al usuario que el envío fue exitoso
+        alert("Reservation submitted successfully! We'll contact you shortly.");
+
+        // Resetear el formulario
+        setFormData({
+          name: "",
+          email: "",
+          date: "",
+          time: "",
+          guests: "",
+          message: "",
+        });
+      } else {
+        throw new Error("Failed to submit reservation.");
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Failed to submit reservation. Please try again.");
