@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MapPin, Clock, Phone, Mail } from "lucide-react";
+import { MapPin, Clock, Phone } from "lucide-react"; // Eliminamos Mail de los íconos importados
 
 export default function Contact() {
   const { translations } = useLanguage();
@@ -177,19 +177,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="rounded-lg p-6 bg-card shadow-sm">
-                <div className="flex">
-                  <div className="mr-4">
-                    <Mail className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-2">{translations.contact.email}</h3>
-                    <p className="text-muted-foreground">
-                      {translations.contact.emailAddress}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {/* Se eliminó el contenedor de email */}
             </div>
 
             {/* Mapa */}
