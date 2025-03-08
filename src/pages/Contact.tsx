@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MapPin, Clock, Phone, Mail } from "lucide-react";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser"; // Usamos @emailjs/browser
 
 export default function Contact() {
   const { translations } = useLanguage();
@@ -15,9 +15,6 @@ export default function Contact() {
     guests: "",
     message: "",
   });
-
-  // Inicializar EmailJS con la Public Key
-  emailjs.init("7zRlZErpZsszptCxr"); // Reemplaza con tu Public Key
 
   // Manejar cambios en los campos del formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,12 +30,13 @@ export default function Contact() {
     e.preventDefault();
 
     // Configuración de EmailJS
-    const serviceID = "service_mih8a2o"; // Reemplaza con tu Service ID
-    const templateID = "template_02f91v8"; // Reemplaza con tu Template ID
+    const serviceID = "service_9yaxh2k"; // Service ID proporcionado
+    const templateID = "template_9yaxh2k"; // Template ID proporcionado
+    const userID = "user_9yaxh2k"; // Public Key proporcionada
 
     try {
       // Enviar el formulario usando EmailJS
-      await emailjs.send(serviceID, templateID, formData);
+      await emailjs.send(serviceID, templateID, formData, userID);
 
       // Notificar al usuario que el envío fue exitoso
       alert("Reservation submitted successfully! We'll contact you shortly.");
