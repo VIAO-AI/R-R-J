@@ -62,8 +62,6 @@ export default function Footer() {
               <p>{translations.contact.address}</p>
               {/* Updated phone number */}
               <p>(415) 609-5160</p>
-              {/* Updated email address */}
-              <p>info@restaurantrincondejorgito.com</p>
               <div className="space-y-1">
                 <p className="font-medium text-foreground">{translations.contact.hours}</p>
                 {/* Updated opening hours */}
