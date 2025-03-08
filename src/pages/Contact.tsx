@@ -183,9 +183,7 @@ export default function Contact() {
                     <Mail className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-medium mb-2">{translations.contact.email}</h3>
-                    <p className="text-muted-foreground">
-                      {translations.contact.emailAddress}
+                   
                     </p>
                   </div>
                 </div>
