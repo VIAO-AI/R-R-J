@@ -17,11 +17,11 @@ El Rincon de Jorgito is a modern and functional web platform for a Peruvian rest
 
 1. Clone the repository:
    ```sh
-   https://github.com/VIAO-AI/ElRinconDeJorgitoAppWeb.git
+   https://github.com/VIAO-AI/el-rincon-digital.git
    ```
 2. Access the project directory:
    ```sh
-   cd el-rincon-de-jorgito
+   cd el-rincon-digital
    ```
 3. Install dependencies:
    ```sh
