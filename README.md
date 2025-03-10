@@ -40,16 +40,45 @@ El Rincon de Jorgito is a modern and functional web platform for a Peruvian rest
 ## Project Structure
 
 ```
-📂 el-rinconcito-de-jorgito
- ┣ 📂 public        # Static resources
- ┣ 📂 src           # Main source code
- ┃ ┣ 📂 components  # Reusable components
- ┃ ┣ 📂 pages       # Main pages
- ┃ ┣ 📂 services    # Services and Supabase connection
- ┃ ┗ 📂 styles      # Global styles
- ┣ 📜 package.json  # Project configuration
- ┣ 📜 tailwind.config.ts # Tailwind CSS configuration
- ┗ 📜 README.md     # Project documentation
+el-rincon-digital-main/
+│── public/                 # Archivos estáticos y recursos
+│   ├── images-uploads/    # Imágenes subidas por usuarios
+│   ├── favicon.ico         # Ícono del sitio
+│   ├── placeholder.svg     # Imagen de marcador de posición
+│
+│── src/                    # Código fuente principal
+│   ├── components/         # Componentes reutilizables
+│   │   ├── ui/             # Componentes de UI (botones, formularios, etc.)
+│   │   ├── FoodItem.tsx    # Ejemplo de componente
+│   │   ├── Navbar.tsx      # Barra de navegación
+│   │   ├── Footer.tsx      # Pie de página
+│   │
+│   ├── contexts/           # Context API para estado global
+│   │   ├── LanguageContext.tsx
+│   │
+│   ├── hooks/              # Hooks personalizados
+│   │   ├── use-mobile.tsx  # Hook para detectar móvil
+│   │
+│   ├── lib/                # Funciones utilitarias
+│   │   ├── utils.ts
+│   │
+│   ├── pages/              # Páginas principales
+│   │   ├── Index.tsx       # Página de inicio
+│   │   ├── About.tsx       # Página "Sobre Nosotros"
+│   │   ├── Contact.tsx     # Página de contacto
+│   │   ├── Menu.tsx        # Página del menú
+│   │   ├── NotFound.tsx    # Página 404
+│   │
+│   ├── App.tsx             # Componente raíz
+│   ├── main.tsx            # Punto de entrada principal
+│
+│── .gitignore              # Archivos ignorados por Git
+│── package.json            # Dependencias del proyecto
+│── tailwind.config.ts      # Configuración de Tailwind CSS
+│── vite.config.ts          # Configuración de Vite
+│── tsconfig.json           # Configuración de TypeScript
+│── README.md               # Documentación del proyecto
+
 ```
 
 ## Contribution
