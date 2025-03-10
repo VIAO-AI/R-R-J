@@ -1,69 +1,61 @@
-# Welcome to your Lovable project
+# El Rincon de Jorgito - Web App
 
-## Project info
+## Description
 
-**URL**: https://lovable.dev/projects/4dd39500-b3f7-465b-b8b8-0a8189fbddfe
+El Rincon de Jorgito is a modern and functional web platform for a Peruvian restaurant, allowing online orders, dish customization, delivery or pickup options, multiple payment methods, and a loyalty program called "JorgitoRewards."
 
-## How can I edit this code?
+## Main Features
 
-There are several ways of editing your application.
+- Online orders with dish customization.
+- Delivery and pickup options.
+- Various payment methods.
+- "JorgitoRewards" loyalty program.
+- Modern and optimized interface.
+- Reservation management integrated with Supabase and Vercel.
 
-**Use Lovable**
+## Installation and Setup
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4dd39500-b3f7-465b-b8b8-0a8189fbddfe) and start prompting.
+1. Clone the repository:
+   ```sh
+   https://github.com/VIAO-AI/ElRinconDeJorgitoAppWeb.git
+   ```
+2. Access the project directory:
+   ```sh
+   cd el-rincon-de-jorgito
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   ```
+4. Configure environment variables in `.env`:
+   ```env
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_key
+   ```
+5. Start the development server:
+   ```sh
+   npm run dev
+   ```
 
-Changes made via Lovable will be committed automatically to this repo.
+## Project Structure
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+📂 el-rinconcito-de-jorgito
+ ┣ 📂 public        # Static resources
+ ┣ 📂 src           # Main source code
+ ┃ ┣ 📂 components  # Reusable components
+ ┃ ┣ 📂 pages       # Main pages
+ ┃ ┣ 📂 services    # Services and Supabase connection
+ ┃ ┗ 📂 styles      # Global styles
+ ┣ 📜 package.json  # Project configuration
+ ┣ 📜 tailwind.config.ts # Tailwind CSS configuration
+ ┗ 📜 README.md     # Project documentation
 ```
 
-**Edit a file directly in GitHub**
+## Contribution
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+This project is private and protected by copyright. Any unauthorized reproduction, distribution, or modification is strictly prohibited.
 
-**Use GitHub Codespaces**
+## License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/4dd39500-b3f7-465b-b8b8-0a8189fbddfe) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+All rights reserved © 2025. Unauthorized use is prohibited.
