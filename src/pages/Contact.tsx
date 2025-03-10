@@ -3,7 +3,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { MapPin, Clock, Phone } from "lucide-react"; // Eliminamos Mail de los íconos importados
 
 export default function Contact() {
-  const { translations } = useLanguage();
+  const {
+    translations
+  } = useLanguage();
 
   // Estado para el formulario de reserva
   const [formData, setFormData] = useState({
@@ -12,15 +14,18 @@ export default function Contact() {
     date: "",
     time: "",
     guests: "",
-    message: "",
+    message: ""
   });
 
   // Manejar cambios en los campos del formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const {
+      name,
+      value
+    } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -42,23 +47,24 @@ export default function Contact() {
       <p><strong>Invitados:</strong> ${formData.guests}</p>
       <p><strong>Mensaje:</strong> ${formData.message}</p>
     `;
-
     try {
       // Enviar el correo usando Resend
       const response = await fetch(resendEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${resendApiKey}`,
+          Authorization: `Bearer ${resendApiKey}`
         },
         body: JSON.stringify({
-          from: "El Rincón de Jorgito <restaurantdejorgitoadm@gmail.com>", // Remitente fijo
-          to: formData.email, // Destinatario dinámico (correo del usuario)
-          subject: "Confirmación de Reserva", // Asunto del correo
-          html: emailContent, // Contenido del correo en HTML
-        }),
+          from: "El Rincón de Jorgito <restaurantdejorgitoadm@gmail.com>",
+          // Remitente fijo
+          to: formData.email,
+          // Destinatario dinámico (correo del usuario)
+          subject: "Confirmación de Reserva",
+          // Asunto del correo
+          html: emailContent // Contenido del correo en HTML
+        })
       });
-
       if (response.ok) {
         // Notificar al usuario que el envío fue exitoso
         alert("Reservation submitted successfully! We'll contact you shortly.");
@@ -70,7 +76,7 @@ export default function Contact() {
           date: "",
           time: "",
           guests: "",
-          message: "",
+          message: ""
         });
       } else {
         throw new Error("Failed to submit reservation.");
@@ -83,33 +89,26 @@ export default function Contact() {
 
   // Intersection Observer para animaciones
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-      }
-    );
-
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
     const sections = document.querySelectorAll(".fade-in-section");
-    sections.forEach((section) => {
+    sections.forEach(section => {
       observer.observe(section);
     });
-
     return () => {
-      sections.forEach((section) => {
+      sections.forEach(section => {
         observer.unobserve(section);
       });
     };
   }, []);
-
-  return (
-    <main className="pt-20">
+  return <main className="pt-20">
       {/* Sección de bienvenida */}
       <div className="bg-muted/50 py-20">
         <div className="container text-center max-w-3xl mx-auto">
@@ -163,19 +162,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="rounded-lg p-6 bg-card shadow-sm">
-                <div className="flex">
-                  <div className="mr-4">
-                    <Phone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-2">{translations.contact.phone}</h3>
-                    <p className="text-muted-foreground">
-                      {translations.contact.phoneNumber}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              
 
               {/* Se eliminó el contenedor de email */}
             </div>
@@ -183,16 +170,9 @@ export default function Contact() {
             {/* Mapa */}
             <div className="lg:col-span-3">
               <div className="h-[500px] rounded-lg overflow-hidden shadow-md">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.9151385546063!2d-122.40148518446359!3d37.76108182037143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7e3074a2a2a7%3A0xc296cc5589747f93!2s1850%20Cesar%20Chavez%20St%2C%20San%20Francisco%2C%20CA%2094107%2C%20USA!5e0!3m2!1sen!2s!4v1686952879862!5m2!1sen!2s"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Restaurant Location"
-                ></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.9151385546063!2d-122.40148518446359!3d37.76108182037143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7e3074a2a2a7%3A0xc296cc5589747f93!2s1850%20Cesar%20Chavez%20St%2C%20San%20Francisco%2C%20CA%2094107%2C%20USA!5e0!3m2!1sen!2s!4v1686952879862!5m2!1sen!2s" width="100%" height="100%" style={{
+                border: 0
+              }} allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Restaurant Location"></iframe>
               </div>
             </div>
           </div>
@@ -217,97 +197,46 @@ export default function Contact() {
                 <label htmlFor="name" className="block text-sm font-medium text-muted-foreground">
                   Full Name
                 </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                  required
-                />
+                <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required />
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-muted-foreground">
                   Email Address
                 </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                  required
-                />
+                <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required />
               </div>
 
               <div>
                 <label htmlFor="date" className="block text-sm font-medium text-muted-foreground">
                   Date
                 </label>
-                <input
-                  type="date"
-                  name="date"
-                  id="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                  required
-                />
+                <input type="date" name="date" id="date" value={formData.date} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required />
               </div>
 
               <div>
                 <label htmlFor="time" className="block text-sm font-medium text-muted-foreground">
                   Time
                 </label>
-                <input
-                  type="time"
-                  name="time"
-                  id="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                  required
-                />
+                <input type="time" name="time" id="time" value={formData.time} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required />
               </div>
 
               <div>
                 <label htmlFor="guests" className="block text-sm font-medium text-muted-foreground">
                   Number of Guests
                 </label>
-                <input
-                  type="number"
-                  name="guests"
-                  id="guests"
-                  value={formData.guests}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                  required
-                />
+                <input type="number" name="guests" id="guests" value={formData.guests} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required />
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-muted-foreground">
                   Special Requests
                 </label>
-                <textarea
-                  name="message"
-                  id="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                  rows={4}
-                  placeholder="Any dietary restrictions or special occasions?"
-                ></textarea>
+                <textarea name="message" id="message" value={formData.message} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" rows={4} placeholder="Any dietary restrictions or special occasions?"></textarea>
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                >
+                <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                   Reserve Now
                 </button>
               </div>
@@ -315,6 +244,5 @@ export default function Contact() {
           </div>
         </div>
       </section>
-    </main>
-  );
+    </main>;
 }
