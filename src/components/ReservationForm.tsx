@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,7 @@ export interface ReservationData {
 }
 
 export default function ReservationForm() {
-  const { translations } = useLanguage();
+  const { translations, language } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [reservationType, setReservationType] = useState<"table" | "event">("table");
@@ -79,8 +78,8 @@ export default function ReservationForm() {
     };
 
     try {
-      // Update with your actual Supabase project URL
-      const response = await fetch('https://YOUR_SUPABASE_PROJECT_REF.supabase.co/functions/v1/handle-reservation', {
+      // Replace with your actual Supabase project URL
+      const response = await fetch('https://your-project-id.supabase.co/functions/v1/handle-reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,8 +92,8 @@ export default function ReservationForm() {
       }
 
       toast({
-        title: translations.language === "en" ? "Reservation Submitted" : "Reserva Enviada",
-        description: translations.language === "en" 
+        title: language === "en" ? "Reservation Submitted" : "Reserva Enviada",
+        description: language === "en" 
           ? "We'll confirm your reservation shortly via email." 
           : "Confirmaremos tu reserva en breve por correo electrónico.",
       });
@@ -116,8 +115,8 @@ export default function ReservationForm() {
     } catch (error) {
       console.error('Error submitting reservation:', error);
       toast({
-        title: translations.language === "en" ? "Submission Error" : "Error de Envío",
-        description: translations.language === "en"
+        title: language === "en" ? "Submission Error" : "Error de Envío",
+        description: language === "en"
           ? "There was a problem submitting your reservation. Please try again."
           : "Hubo un problema al enviar tu reserva. Por favor, inténtalo de nuevo.",
         variant: "destructive"
@@ -131,17 +130,19 @@ export default function ReservationForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Reservation Type */}
       <div className="space-y-2">
-        <Label htmlFor="reservation-type">Reservation Type</Label>
+        <Label htmlFor="reservation-type">
+          {language === "en" ? "Reservation Type" : "Tipo de Reserva"}
+        </Label>
         <Select 
           value={reservationType} 
           onValueChange={(value) => setReservationType(value as "table" | "event")}
         >
           <SelectTrigger className="bg-card">
-            <SelectValue placeholder="Select reservation type" />
+            <SelectValue placeholder={language === "en" ? "Select reservation type" : "Selecciona tipo de reserva"} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="table">Table Reservation</SelectItem>
-            <SelectItem value="event">Event Reservation</SelectItem>
+            <SelectItem value="table">{language === "en" ? "Table Reservation" : "Reserva de Mesa"}</SelectItem>
+            <SelectItem value="event">{language === "en" ? "Event Reservation" : "Reserva para Evento"}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -159,7 +160,7 @@ export default function ReservationForm() {
               onChange={handleInputChange}
               required
               className="bg-card"
-              placeholder="John Doe"
+              placeholder={language === "en" ? "John Doe" : "Juan Pérez"}
             />
           </div>
 
@@ -174,7 +175,7 @@ export default function ReservationForm() {
               onChange={handleInputChange}
               required
               className="bg-card"
-              placeholder="john.doe@example.com"
+              placeholder={language === "en" ? "john.doe@example.com" : "juan.perez@ejemplo.com"}
             />
           </div>
         </div>
@@ -193,7 +194,7 @@ export default function ReservationForm() {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : "Select a date"}
+                  {date ? format(date, "PPP") : language === "en" ? "Select a date" : "Selecciona una fecha"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -217,7 +218,7 @@ export default function ReservationForm() {
               required
             >
               <SelectTrigger className="bg-card">
-                <SelectValue placeholder="Select time" />
+                <SelectValue placeholder={language === "en" ? "Select time" : "Selecciona hora"} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="11:30">11:30 AM</SelectItem>
@@ -243,17 +244,17 @@ export default function ReservationForm() {
               required
             >
               <SelectTrigger className="bg-card">
-                <SelectValue placeholder="Number of guests" />
+                <SelectValue placeholder={language === "en" ? "Number of guests" : "Número de invitados"} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">1 person</SelectItem>
-                <SelectItem value="2">2 people</SelectItem>
-                <SelectItem value="3">3 people</SelectItem>
-                <SelectItem value="4">4 people</SelectItem>
-                <SelectItem value="5">5 people</SelectItem>
-                <SelectItem value="6">6 people</SelectItem>
-                <SelectItem value="7">7 people</SelectItem>
-                <SelectItem value="8">8+ people (call us)</SelectItem>
+                <SelectItem value="1">{language === "en" ? "1 person" : "1 persona"}</SelectItem>
+                <SelectItem value="2">{language === "en" ? "2 people" : "2 personas"}</SelectItem>
+                <SelectItem value="3">{language === "en" ? "3 people" : "3 personas"}</SelectItem>
+                <SelectItem value="4">{language === "en" ? "4 people" : "4 personas"}</SelectItem>
+                <SelectItem value="5">{language === "en" ? "5 people" : "5 personas"}</SelectItem>
+                <SelectItem value="6">{language === "en" ? "6 people" : "6 personas"}</SelectItem>
+                <SelectItem value="7">{language === "en" ? "7 people" : "7 personas"}</SelectItem>
+                <SelectItem value="8">{language === "en" ? "8+ people (call us)" : "8+ personas (llámenos)"}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -268,7 +269,9 @@ export default function ReservationForm() {
             value={formData.message}
             onChange={handleInputChange}
             className="min-h-[120px] resize-y bg-card"
-            placeholder="Any dietary restrictions or special occasions?"
+            placeholder={language === "en" 
+              ? "Any dietary restrictions or special occasions?" 
+              : "¿Alguna restricción alimentaria u ocasión especial?"}
           />
         </div>
       </div>
@@ -276,31 +279,31 @@ export default function ReservationForm() {
       {/* Event-Specific Fields */}
       {reservationType === "event" && (
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Event Details</h3>
+          <h3 className="text-lg font-semibold">{language === "en" ? "Event Details" : "Detalles del Evento"}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Event Type */}
             <div className="space-y-2">
-              <Label htmlFor="eventType">Event Type</Label>
+              <Label htmlFor="eventType">{language === "en" ? "Event Type" : "Tipo de Evento"}</Label>
               <Select 
                 value={formData.eventType} 
                 onValueChange={(value) => handleSelectChange("eventType", value)}
                 required={reservationType === "event"}
               >
                 <SelectTrigger className="bg-card">
-                  <SelectValue placeholder="Select event type" />
+                  <SelectValue placeholder={language === "en" ? "Select event type" : "Selecciona tipo de evento"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="birthday">Birthday Party</SelectItem>
-                  <SelectItem value="wedding">Wedding</SelectItem>
-                  <SelectItem value="corporate">Corporate Meeting</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="birthday">{language === "en" ? "Birthday Party" : "Fiesta de Cumpleaños"}</SelectItem>
+                  <SelectItem value="wedding">{language === "en" ? "Wedding" : "Boda"}</SelectItem>
+                  <SelectItem value="corporate">{language === "en" ? "Corporate Meeting" : "Reunión Corporativa"}</SelectItem>
+                  <SelectItem value="other">{language === "en" ? "Other" : "Otro"}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {/* Number of Attendees */}
             <div className="space-y-2">
-              <Label htmlFor="attendees">Number of Attendees</Label>
+              <Label htmlFor="attendees">{language === "en" ? "Number of Attendees" : "Número de Asistentes"}</Label>
               <Input
                 id="attendees"
                 name="attendees"
@@ -310,21 +313,21 @@ export default function ReservationForm() {
                 onChange={handleInputChange}
                 required={reservationType === "event"}
                 className="bg-card"
-                placeholder="Enter number of attendees"
+                placeholder={language === "en" ? "Enter number of attendees" : "Ingresa número de asistentes"}
               />
             </div>
           </div>
 
           {/* Additional Event Details */}
           <div className="space-y-2">
-            <Label htmlFor="eventDescription">Additional Details</Label>
+            <Label htmlFor="eventDescription">{language === "en" ? "Additional Details" : "Detalles Adicionales"}</Label>
             <Textarea
               id="eventDescription"
               name="eventDescription"
               value={formData.eventDescription}
               onChange={handleInputChange}
               className="min-h-[120px] resize-y bg-card"
-              placeholder="Describe your event requirements..."
+              placeholder={language === "en" ? "Describe your event requirements..." : "Describe los requisitos de tu evento..."}
             />
           </div>
         </div>
@@ -336,7 +339,9 @@ export default function ReservationForm() {
         className="w-full btn-hover"
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Processing..." : translations.contact.submitButton}
+        {isSubmitting 
+          ? (language === "en" ? "Processing..." : "Procesando...") 
+          : translations.contact.submitButton}
       </Button>
     </form>
   );

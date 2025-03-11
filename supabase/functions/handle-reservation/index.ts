@@ -2,7 +2,7 @@
 // Follow these steps to deploy this Edge Function in your Supabase project:
 // 1. Run `supabase functions new handle-reservation` to create this function locally
 // 2. Copy this code into the index.ts file
-// 3. Set your Resend API key in Supabase secrets: `supabase secrets set RESEND_API_KEY=your_resend_api_key`
+// 3. Set your Resend API key in Supabase secrets: `supabase secrets set RESEND_API_KEY=re_123456789`
 // 4. Deploy the function: `supabase functions deploy handle-reservation`
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
@@ -84,7 +84,7 @@ serve(async (req) => {
     }
 
     // 2. Send an email notification using Resend
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')
+    const resendApiKey = "re_123456789" // Using the provided API key
     const adminEmail = 'restaurantdejorgitoadm@gmail.com'
     
     // Email template
