@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -12,31 +13,114 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+export interface ReservationData {
+  name: string;
+  email: string;
+  date: string;
+  time: string;
+  guests: string;
+  message: string;
+  reservationType: "table" | "event";
+  eventType?: string;
+  attendees?: string;
+  eventDescription?: string;
+}
+
 export default function ReservationForm() {
   const { translations } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [reservationType, setReservationType] = useState<"table" | "event">("table");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    time: "",
+    guests: "",
+    message: "",
+    eventType: "",
+    attendees: "",
+    eventDescription: ""
+  });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!date) {
+      toast({
+        title: "Error",
+        description: "Please select a date for your reservation.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    const reservationData: ReservationData = {
+      ...formData,
+      date: format(date, "yyyy-MM-dd"),
+      reservationType
+    };
+
+    try {
+      // The URL would be the deployed Supabase Edge Function
+      const response = await fetch('https://your-supabase-url.functions.supabase.co/handle-reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reservationData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit reservation');
+      }
+
       toast({
         title: "Reservation Submitted",
         description: "We'll confirm your reservation shortly via email.",
       });
-      setIsSubmitting(false);
 
-      // Reset form - in a real app, you'd use a form library like react-hook-form
-      const form = e.target as HTMLFormElement;
-      form.reset();
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        time: "",
+        guests: "",
+        message: "",
+        eventType: "",
+        attendees: "",
+        eventDescription: ""
+      });
       setDate(undefined);
-      setReservationType("table"); // Reset to default reservation type
-    }, 1500);
+      setReservationType("table");
+      
+    } catch (error) {
+      console.error('Error submitting reservation:', error);
+      toast({
+        title: "Submission Error",
+        description: "There was a problem submitting your reservation. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -44,7 +128,10 @@ export default function ReservationForm() {
       {/* Reservation Type */}
       <div className="space-y-2">
         <Label htmlFor="reservation-type">Reservation Type</Label>
-        <Select value={reservationType} onValueChange={(value) => setReservationType(value as "table" | "event")}>
+        <Select 
+          value={reservationType} 
+          onValueChange={(value) => setReservationType(value as "table" | "event")}
+        >
           <SelectTrigger className="bg-card">
             <SelectValue placeholder="Select reservation type" />
           </SelectTrigger>
@@ -64,6 +151,8 @@ export default function ReservationForm() {
             <Input
               id="name"
               name="name"
+              value={formData.name}
+              onChange={handleInputChange}
               required
               className="bg-card"
               placeholder="John Doe"
@@ -77,6 +166,8 @@ export default function ReservationForm() {
               id="email"
               name="email"
               type="email"
+              value={formData.email}
+              onChange={handleInputChange}
               required
               className="bg-card"
               placeholder="john.doe@example.com"
@@ -116,7 +207,11 @@ export default function ReservationForm() {
           {/* Time */}
           <div className="space-y-2">
             <Label htmlFor="time">{translations.contact.timeLabel}</Label>
-            <Select required>
+            <Select 
+              value={formData.time} 
+              onValueChange={(value) => handleSelectChange("time", value)}
+              required
+            >
               <SelectTrigger className="bg-card">
                 <SelectValue placeholder="Select time" />
               </SelectTrigger>
@@ -138,7 +233,11 @@ export default function ReservationForm() {
           {/* Guests */}
           <div className="space-y-2">
             <Label htmlFor="guests">{translations.contact.guestsLabel}</Label>
-            <Select required>
+            <Select 
+              value={formData.guests} 
+              onValueChange={(value) => handleSelectChange("guests", value)}
+              required
+            >
               <SelectTrigger className="bg-card">
                 <SelectValue placeholder="Number of guests" />
               </SelectTrigger>
@@ -162,6 +261,8 @@ export default function ReservationForm() {
           <Textarea
             id="message"
             name="message"
+            value={formData.message}
+            onChange={handleInputChange}
             className="min-h-[120px] resize-y bg-card"
             placeholder="Any dietary restrictions or special occasions?"
           />
@@ -175,8 +276,12 @@ export default function ReservationForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Event Type */}
             <div className="space-y-2">
-              <Label htmlFor="event-type">Event Type</Label>
-              <Select required>
+              <Label htmlFor="eventType">Event Type</Label>
+              <Select 
+                value={formData.eventType} 
+                onValueChange={(value) => handleSelectChange("eventType", value)}
+                required={reservationType === "event"}
+              >
                 <SelectTrigger className="bg-card">
                   <SelectValue placeholder="Select event type" />
                 </SelectTrigger>
@@ -197,7 +302,9 @@ export default function ReservationForm() {
                 name="attendees"
                 type="number"
                 min="1"
-                required
+                value={formData.attendees}
+                onChange={handleInputChange}
+                required={reservationType === "event"}
                 className="bg-card"
                 placeholder="Enter number of attendees"
               />
@@ -206,10 +313,12 @@ export default function ReservationForm() {
 
           {/* Additional Event Details */}
           <div className="space-y-2">
-            <Label htmlFor="event-description">Additional Details</Label>
+            <Label htmlFor="eventDescription">Additional Details</Label>
             <Textarea
-              id="event-description"
-              name="event-description"
+              id="eventDescription"
+              name="eventDescription"
+              value={formData.eventDescription}
+              onChange={handleInputChange}
               className="min-h-[120px] resize-y bg-card"
               placeholder="Describe your event requirements..."
             />
