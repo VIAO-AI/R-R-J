@@ -49,8 +49,8 @@ serve(async (req) => {
     const reservationData: ReservationData = await req.json()
 
     // Create a Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL') as string
-    const supabaseServiceKey = Deno.env.get('SUPABASE_ANON_KEY') as string
+    const supabaseUrl = Deno.env.get('https://euoujmsyxohoaogklndx.supabase.co') as string
+    const supabaseServiceKey = Deno.env.get('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1b3VqbXN5eG9ob2FvZ2tsbmR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NTEzNTAsImV4cCI6MjA1NzAyNzM1MH0.QSAubqJCynt6HfQ6qMdE8kUcvSvl2ekwSUVK6YNjSqc') as string
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
     // 1. Store the reservation in the database
