@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -78,8 +79,7 @@ export default function ReservationForm() {
     };
 
     try {
-      // Replace with your actual Supabase project URL
-      const response = await fetch('https://your-project-id.supabase.co/functions/v1/handle-reservation', {
+      const response = await fetch('https://euoujmsyxohoaogklndx.supabase.co/functions/v1/handle-reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
