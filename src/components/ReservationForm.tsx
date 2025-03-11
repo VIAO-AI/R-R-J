@@ -79,8 +79,8 @@ export default function ReservationForm() {
     };
 
     try {
-      // The URL would be the deployed Supabase Edge Function
-      const response = await fetch('https://your-supabase-url.functions.supabase.co/handle-reservation', {
+      // Update with your actual Supabase project URL
+      const response = await fetch('https://YOUR_SUPABASE_PROJECT_REF.supabase.co/functions/v1/handle-reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,8 +93,10 @@ export default function ReservationForm() {
       }
 
       toast({
-        title: "Reservation Submitted",
-        description: "We'll confirm your reservation shortly via email.",
+        title: translations.language === "en" ? "Reservation Submitted" : "Reserva Enviada",
+        description: translations.language === "en" 
+          ? "We'll confirm your reservation shortly via email." 
+          : "Confirmaremos tu reserva en breve por correo electrónico.",
       });
 
       // Reset form
@@ -114,8 +116,10 @@ export default function ReservationForm() {
     } catch (error) {
       console.error('Error submitting reservation:', error);
       toast({
-        title: "Submission Error",
-        description: "There was a problem submitting your reservation. Please try again.",
+        title: translations.language === "en" ? "Submission Error" : "Error de Envío",
+        description: translations.language === "en"
+          ? "There was a problem submitting your reservation. Please try again."
+          : "Hubo un problema al enviar tu reserva. Por favor, inténtalo de nuevo.",
         variant: "destructive"
       });
     } finally {

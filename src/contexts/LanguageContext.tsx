@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 // English translations
@@ -35,15 +34,18 @@ const enTranslations = {
   contact: {
     subtitle: "Get in Touch",
     title: "Visit Us",
+    description: "We'd love to hear from you. Contact us for reservations or inquiries about our menu, events, or catering services.",
+    addressTitle: "Address",
     address: "1850 Cesar Chavez St, San Francisco, CA 94107",
     hours: "Opening Hours",
     weekdays: "Monday - Thursday: 11:30am - 10pm",
     weekend: "Friday - Sunday: 11:30am - 11pm",
-    phone: "Phone",
-    phoneNumber: "(415) 555-0123",
+    phoneTitle: "Phone",
+    phone: "(415) 555-0123",
     email: "Email",
     emailAddress: "info@rinconjorgito.com",
     formTitle: "Make a Reservation",
+    formDescription: "Reserve your table or event space today. For large parties or special events, we recommend booking at least a week in advance.",
     nameLabel: "Full Name",
     emailLabel: "Email Address",
     dateLabel: "Date",
@@ -100,15 +102,18 @@ const esTranslations = {
   contact: {
     subtitle: "Contáctanos",
     title: "Visítanos",
+    description: "Nos encantaría saber de ti. Contáctanos para reservas o consultas sobre nuestro menú, eventos o servicios de catering.",
+    addressTitle: "Dirección",
     address: "1850 Cesar Chavez St, San Francisco, CA 94107",
     hours: "Horario de Apertura",
     weekdays: "Lunes - Jueves: 11:30am - 10pm",
     weekend: "Viernes - Domingo: 11:30am - 11pm",
-    phone: "Teléfono",
-    phoneNumber: "(415) 555-0123",
+    phoneTitle: "Teléfono",
+    phone: "(415) 555-0123",
     email: "Correo Electrónico",
     emailAddress: "info@rinconjorgito.com",
     formTitle: "Hacer una Reserva",
+    formDescription: "Reserva tu mesa o espacio para eventos hoy. Para grupos grandes o eventos especiales, recomendamos reservar con al menos una semana de anticipación.",
     nameLabel: "Nombre Completo",
     emailLabel: "Correo Electrónico",
     dateLabel: "Fecha",
