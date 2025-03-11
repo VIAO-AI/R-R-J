@@ -1,4 +1,3 @@
-
 // Follow these steps to deploy this Edge Function in your Supabase project:
 // 1. Run `supabase functions new handle-reservation` to create this function locally
 // 2. Copy this code into the index.ts file
@@ -116,7 +115,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${resendApiKey}`
       },
       body: JSON.stringify({
-        from: 'El Rincón de Jorgito <reservations@elrincondejorgito.com>',
+        from: 'Restaurant - El Rincón de Jorgito <restaurantdejorgitoadm@gmail.com>',
         to: [adminEmail, reservationData.email], // Send to both admin and customer
         subject: `Nueva Reserva: ${reservationData.name}`,
         html: emailContent
