@@ -84,7 +84,7 @@ serve(async (req) => {
     }
 
     // 2. Send an email notification using Resend
-    const resendApiKey = "re_123456789" // Using the provided API key
+    const resendApiKey = "re_123456789" // Using the API key you provided
     const adminEmail = 'restaurantdejorgitoadm@gmail.com'
     
     // Email template
