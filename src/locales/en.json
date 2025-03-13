@@ -1,0 +1,67 @@
+
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About Us",
+    "contact": "Contact",
+    "reservation": "Reserve a Table"
+  },
+  "hero": {
+    "subtitle": "Authentic Peruvian Cuisine",
+    "title": "El Rincón de Jorgito",
+    "description": "Experience the genuine flavors of Peru in the heart of San Francisco. Our carefully crafted dishes bring the essence of Peruvian culinary tradition to your table.",
+    "cta": "Reserve a Table"
+  },
+  "about": {
+    "subtitle": "Our Story",
+    "title": "A Taste of Peru in San Francisco",
+    "story": "El Rincón de Jorgito began with a simple vision: to share the rich culinary heritage of Peru with San Francisco. Founded by Jorge Mendoza in 2015, our restaurant combines traditional techniques with locally sourced ingredients to create an authentic yet innovative dining experience.",
+    "vision": "Every dish tells a story of Peru's diverse cultural influences – from indigenous Andean traditions to Spanish, African, Chinese, and Japanese cuisines that have shaped Peru's gastronomic landscape.",
+    "chef": "About the Chef",
+    "chefDesc": "Chef Jorge Mendoza brings over 20 years of experience, having trained in Lima's finest restaurants before bringing his expertise to California. His passion for Peruvian flavors and dedication to culinary excellence defines every aspect of El Rincón de Jorgito."
+  },
+  "menu": {
+    "subtitle": "Our Offerings",
+    "title": "Menu",
+    "starters": "Starters",
+    "mains": "Main Courses",
+    "desserts": "Desserts",
+    "drinks": "Beverages"
+  },
+  "contact": {
+    "subtitle": "Get in Touch",
+    "title": "Visit Us",
+    "description": "We'd love to hear from you. Contact us for reservations or inquiries about our menu, events, or catering services.",
+    "addressTitle": "Address",
+    "address": "1850 Cesar Chavez St, San Francisco, CA 94107",
+    "hours": "Opening Hours",
+    "weekdays": "Monday - Thursday: 11:30am - 10pm",
+    "weekend": "Friday - Sunday: 11:30am - 11pm",
+    "phoneTitle": "Phone",
+    "phone": "(415) 555-0123",
+    "email": "Email",
+    "emailAddress": "info@rinconjorgito.com",
+    "formTitle": "Make a Reservation",
+    "formDescription": "Reserve your table or event space today. For large parties or special events, we recommend booking at least a week in advance.",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email Address",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "guestsLabel": "Number of Guests",
+    "messageLabel": "Special Requests",
+    "submitButton": "Reserve Now"
+  },
+  "payment": {
+    "title": "Payment Methods",
+    "desc": "We accept various payment methods for your convenience",
+    "applePay": "Apple Pay",
+    "creditCard": "Credit Card",
+    "cash": "Cash"
+  },
+  "footer": {
+    "rights": "All Rights Reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}

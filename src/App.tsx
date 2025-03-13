@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Index from './pages/Index';
@@ -7,9 +8,9 @@ import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import Admin from './pages/Admin';
-import { LanguageContext } from './contexts/LanguageContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTranslation from './locales/en.json';
@@ -30,16 +31,10 @@ i18next
   });
 
 function App() {
-  const [language, setLanguage] = useState('es');
-
-  useEffect(() => {
-    i18next.changeLanguage(language);
-  }, [language]);
-
   return (
     <div className="App">
       <Router>
-        <LanguageContext.Provider value={{ language, setLanguage }}>
+        <LanguageProvider>
           <Navbar />
           <Routes>
             <Route path="/" element={<Index />} />
@@ -50,7 +45,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
-        </LanguageContext.Provider>
+        </LanguageProvider>
       </Router>
       <Toaster />
     </div>
