@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -88,45 +88,30 @@ export default function ReservationForm() {
       
       // Add a timeout to the fetch request to prevent hanging
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
       
-      // Define the correct URL based on environment
-      const baseUrl = import.meta.env.VITE_SUPABASE_URL || "https://euoujmsyxohoaogklndx.supabase.co";
-      const functionUrl = `${baseUrl}/functions/v1/handle-reservation`;
-      
-      console.log('Sending reservation to:', functionUrl);
-      
-      const response = await fetch(functionUrl, {
+      const response = await fetch('https://euoujmsyxohoaogklndx.supabase.co/functions/v1/handle-reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Origin': window.location.origin,
-          'Accept': 'application/json',
         },
         body: JSON.stringify(reservationData),
         signal: controller.signal,
         mode: 'cors', // Explicitly set CORS mode
-        credentials: 'omit', // Don't send cookies
       });
       
       clearTimeout(timeoutId);
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', [...response.headers.entries()]);
-
       // If fetch returned but with an error status
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        
-        let errorData;
-        try {
-          errorData = JSON.parse(errorText);
-        } catch (e) {
-          errorData = { message: errorText };
-        }
+        const responseData = await response.json().catch(() => ({
+          message: language === "en" 
+            ? "Server returned an error without details" 
+            : "El servidor devolvió un error sin detalles"
+        }));
             
-        throw new Error(errorData.message || 
+        throw new Error(responseData.message || 
           (language === "en" 
             ? "Failed to submit reservation. Please try again." 
             : "Error al enviar la reserva. Por favor, inténtalo de nuevo."));
@@ -172,11 +157,8 @@ export default function ReservationForm() {
       console.error('Error submitting reservation:', error);
       
       // Determine if it's a network error
-      const isNetworkError = error.name === 'TypeError' || 
-        error.name === 'AbortError' ||
-        error.message.includes('fetch') || 
-        error.message.includes('network') || 
-        error.message.includes('Failed to fetch');
+      const isNetworkError = error.name === 'TypeError' && 
+        (error.message === 'Failed to fetch' || error.message === 'NetworkError' || error.message === 'The user aborted a request');
       
       // Show appropriate error message
       toast({

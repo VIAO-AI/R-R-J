@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Index from './pages/Index';
 import About from './pages/About';
@@ -11,6 +11,24 @@ import Footer from './components/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import Admin from './pages/Admin';
 import { LanguageProvider } from './contexts/LanguageContext';
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import enTranslation from './locales/en.json';
+import esTranslation from './locales/es.json';
+
+i18next
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: { translation: enTranslation },
+      es: { translation: esTranslation },
+    },
+    lng: 'es',
+    fallbackLng: 'es',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
 function App() {
   return (

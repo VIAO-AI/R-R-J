@@ -1,147 +1,67 @@
 
 {
-  "navbar": {
+  "nav": {
     "home": "Inicio",
-    "about": "Nosotros",
     "menu": "Menú",
+    "about": "Nosotros",
     "contact": "Contacto",
-    "language": "Idioma"
-  },
-  "footer": {
-    "address": "1850 Cesar Chavez St, San Francisco, CA 94107",
-    "phone": "(415) 555-0123",
-    "hours": "Horario",
-    "weekdays": "Lunes-Viernes: 11:30 AM - 2:30 PM, 6:00 PM - 10:00 PM",
-    "weekend": "Sábado-Domingo: 11:00 AM - 3:00 PM, 5:30 PM - 10:30 PM",
-    "copyright": "© 2024 El Rincón de Jorgito. Todos los derechos reservados.",
-    "privacy": "Política de Privacidad",
-    "terms": "Términos de Servicio"
+    "reservation": "Reservar Mesa"
   },
   "hero": {
-    "subtitle": "Auténtica Cocina Latina",
-    "title": "El Sabor de la Tradición",
-    "description": "Experimenta los vibrantes sabores de América Latina en el corazón de San Francisco. Nuestras recetas familiares han sido transmitidas por generaciones, trayéndote el auténtico sabor de casa.",
-    "button": "Reservar Mesa",
-    "scrollDown": "Desplázate Abajo"
+    "subtitle": "Auténtica Cocina Peruana",
+    "title": "El Rincón de Jorgito",
+    "description": "Experimenta los auténticos sabores de Perú en el corazón de San Francisco. Nuestros platos cuidadosamente elaborados traen la esencia de la tradición culinaria peruana a tu mesa.",
+    "cta": "Reservar Mesa"
   },
   "about": {
     "subtitle": "Nuestra Historia",
-    "title": "Tradición Familiar Desde 1995",
-    "description": "El Rincón de Jorgito comenzó como un pequeño restaurante familiar en el corazón de San Francisco. Fundado por Jorge Rodríguez, nuestro restaurante ha estado sirviendo auténtica cocina latinoamericana por más de 25 años.",
-    "moreButton": "Conocer Más",
-    "values": {
-      "title": "Nuestros Valores",
-      "freshness": {
-        "title": "Ingredientes Frescos",
-        "description": "Obtenemos los ingredientes locales más frescos diariamente para garantizar la más alta calidad en cada plato."
-      },
-      "tradition": {
-        "title": "Recetas Tradicionales",
-        "description": "Nuestras recetas familiares han sido transmitidas por generaciones, preservando sabores auténticos."
-      },
-      "community": {
-        "title": "Enfoque Comunitario",
-        "description": "Estamos orgullosos de ser parte de la comunidad local, apoyando a agricultores y productores locales."
-      }
-    },
-    "team": {
-      "title": "Conoce a Nuestro Equipo",
-      "description": "Las personas apasionadas detrás de nuestra deliciosa comida y cálida atmósfera."
-    },
-    "chef": {
-      "name": "Jorge Rodríguez",
-      "role": "Chef Principal y Propietario",
-      "bio": "Con más de 30 años de experiencia culinaria, Jorge trae su pasión por la cocina latina tradicional a cada plato."
-    },
-    "souschef": {
-      "name": "María Rodríguez",
-      "role": "Sous Chef",
-      "bio": "María aprendió a cocinar junto a su padre Jorge, y ahora aporta su propio toque creativo a nuestras recetas tradicionales."
-    },
-    "manager": {
-      "name": "Carlos Méndez",
-      "role": "Gerente de Restaurante",
-      "bio": "Carlos asegura que cada cliente disfrute de una experiencia gastronómica excepcional desde el momento en que entra."
-    }
+    "title": "Un Sabor de Perú en San Francisco",
+    "story": "El Rincón de Jorgito comenzó con una visión simple: compartir la rica herencia culinaria de Perú con San Francisco. Fundado por Jorge Mendoza en 2015, nuestro restaurante combina técnicas tradicionales con ingredientes locales para crear una experiencia gastronómica auténtica e innovadora.",
+    "vision": "Cada plato cuenta una historia de las diversas influencias culturales de Perú – desde las tradiciones andinas indígenas hasta las cocinas española, africana, china y japonesa que han dado forma al panorama gastronómico de Perú.",
+    "chef": "Sobre el Chef",
+    "chefDesc": "El Chef Jorge Mendoza aporta más de 20 años de experiencia, habiéndose formado en los mejores restaurantes de Lima antes de traer su experiencia a California. Su pasión por los sabores peruanos y su dedicación a la excelencia culinaria define cada aspecto de El Rincón de Jorgito."
   },
   "menu": {
-    "subtitle": "Nuestras Ofertas",
-    "title": "Explora Nuestro Menú",
-    "description": "Descubre nuestra deliciosa selección de auténticos platos latinoamericanos, preparados con ingredientes frescos y recetas tradicionales.",
-    "categories": {
-      "starters": "Entrantes",
-      "mainCourses": "Platos Principales",
-      "desserts": "Postres",
-      "drinks": "Bebidas"
-    },
-    "items": {
-      "empanadas": {
-        "name": "Empanadas",
-        "description": "Pasteles hechos a mano rellenos de carne sazonada, cebollas y aceitunas",
-        "price": "$12"
-      },
-      "ceviche": {
-        "name": "Ceviche",
-        "description": "Pescado fresco marinado en jugo de limón con cebollas, cilantro y ajíes",
-        "price": "$16"
-      },
-      "tamales": {
-        "name": "Tamales",
-        "description": "Masa de maíz tradicional rellena de pollo y cocida al vapor en hojas de plátano",
-        "price": "$14"
-      },
-      "lomo": {
-        "name": "Lomo Saltado",
-        "description": "Carne de res salteada con cebollas, tomates y papas fritas servida con arroz",
-        "price": "$24"
-      },
-      "churrasco": {
-        "name": "Churrasco",
-        "description": "Falda de res a la parrilla con salsa chimichurri y vegetales asados",
-        "price": "$28"
-      },
-      "mole": {
-        "name": "Mole Poblano",
-        "description": "Pollo en una rica salsa de chocolate, chiles y especias, servido con arroz",
-        "price": "$22"
-      },
-      "flan": {
-        "name": "Flan",
-        "description": "Clásico flan de caramelo con un toque de vainilla",
-        "price": "$9"
-      },
-      "tres": {
-        "name": "Tres Leches",
-        "description": "Bizcocho empapado en tres tipos de leche con cobertura de crema batida",
-        "price": "$10"
-      },
-      "churros": {
-        "name": "Churros",
-        "description": "Masa frita espolvoreada con azúcar y canela, servida con salsa de chocolate",
-        "price": "$8"
-      }
-    }
+    "subtitle": "Nuestras Opciones",
+    "title": "Menú",
+    "starters": "Entradas",
+    "mains": "Platos Principales",
+    "desserts": "Postres",
+    "drinks": "Bebidas"
   },
   "contact": {
     "subtitle": "Contáctanos",
-    "title": "Ponte en Contacto",
-    "description": "¡Nos encantaría saber de ti! Comunícate para reservaciones, consultas o para darnos tu opinión sobre tu experiencia gastronómica.",
+    "title": "Visítanos",
+    "description": "Nos encantaría saber de ti. Contáctanos para reservas o consultas sobre nuestro menú, eventos o servicios de catering.",
     "addressTitle": "Dirección",
     "address": "1850 Cesar Chavez St, San Francisco, CA 94107",
     "hours": "Horario de Apertura",
-    "weekdays": "Lunes-Viernes: 11:30 AM - 2:30 PM, 6:00 PM - 10:00 PM",
-    "weekend": "Sábado-Domingo: 11:00 AM - 3:00 PM, 5:30 PM - 10:30 PM",
+    "weekdays": "Lunes - Jueves: 11:30am - 10pm",
+    "weekend": "Viernes - Domingo: 11:30am - 11pm",
     "phoneTitle": "Teléfono",
     "phone": "(415) 555-0123",
-    "formTitle": "Haz una Reserva",
-    "formDescription": "Reserva tu mesa o evento con anticipación para asegurar la disponibilidad. Confirmaremos tu reserva en breve.",
-    "nameLabel": "Nombre",
+    "email": "Correo Electrónico",
+    "emailAddress": "info@rinconjorgito.com",
+    "formTitle": "Hacer una Reserva",
+    "formDescription": "Reserva tu mesa o espacio para eventos hoy. Para grupos grandes o eventos especiales, recomendamos reservar con al menos una semana de anticipación.",
+    "nameLabel": "Nombre Completo",
     "emailLabel": "Correo Electrónico",
-    "phoneLabel": "Teléfono",
-    "messageLabel": "Peticiones Especiales",
     "dateLabel": "Fecha",
     "timeLabel": "Hora",
-    "guestsLabel": "Invitados",
-    "submitButton": "Enviar Reserva"
+    "guestsLabel": "Número de Invitados",
+    "messageLabel": "Peticiones Especiales",
+    "submitButton": "Reservar Ahora"
+  },
+  "payment": {
+    "title": "Métodos de Pago",
+    "desc": "Aceptamos varios métodos de pago para tu conveniencia",
+    "applePay": "Apple Pay",
+    "creditCard": "Tarjeta de Crédito",
+    "cash": "Efectivo"
+  },
+  "footer": {
+    "rights": "Todos los Derechos Reservados",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio"
   }
 }
