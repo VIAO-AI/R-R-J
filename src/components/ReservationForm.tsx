@@ -10,7 +10,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ReservationData {
@@ -32,6 +32,7 @@ export default function ReservationForm() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [reservationType, setReservationType] = useState<"table" | "event">("table");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionAttempts, setSubmissionAttempts] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -63,14 +64,18 @@ export default function ReservationForm() {
     
     if (!date) {
       toast({
-        title: "Error",
-        description: "Please select a date for your reservation.",
+        title: language === "en" ? "Error" : "Error",
+        description: language === "en" 
+          ? "Please select a date for your reservation." 
+          : "Por favor selecciona una fecha para tu reserva.",
         variant: "destructive"
       });
       return;
     }
 
     setIsSubmitting(true);
+    // Increment submission attempts counter
+    setSubmissionAttempts(prev => prev + 1);
 
     const reservationData: ReservationData = {
       ...formData,
@@ -79,6 +84,8 @@ export default function ReservationForm() {
     };
 
     try {
+      console.log('Submitting reservation:', reservationData);
+      
       const response = await fetch('https://euoujmsyxohoaogklndx.supabase.co/functions/v1/handle-reservation', {
         method: 'POST',
         headers: {
@@ -87,15 +94,42 @@ export default function ReservationForm() {
         body: JSON.stringify(reservationData),
       });
 
+      const responseData = await response.json();
+      console.log('Reservation response:', responseData);
+
       if (!response.ok) {
-        throw new Error('Failed to submit reservation');
+        // Handle specific error cases based on response body
+        let errorMessage = responseData.message || 
+          (language === "en" 
+            ? "Failed to submit reservation. Please try again." 
+            : "Error al enviar la reserva. Por favor, inténtalo de nuevo.");
+            
+        if (responseData.error === "Validation error") {
+          errorMessage = responseData.message || 
+            (language === "en" 
+              ? "Please check your information and try again." 
+              : "Por favor revisa tu información e inténtalo de nuevo.");
+        }
+        
+        throw new Error(errorMessage);
       }
 
-      toast({
-        title: language === "en" ? "Reservation Submitted" : "Reserva Enviada",
-        description: language === "en" 
+      // Check if email was sent successfully
+      const successMessage = language === "en" 
+        ? "Reservation submitted successfully!" 
+        : "¡Reserva enviada exitosamente!";
+        
+      const descriptionMessage = responseData.emailSent === false
+        ? (language === "en" 
+          ? "Your reservation was recorded, but we couldn't send a confirmation email. You'll hear from us soon!" 
+          : "Tu reserva fue registrada, pero no pudimos enviar un correo de confirmación. ¡Pronto tendrás noticias nuestras!")
+        : (language === "en" 
           ? "We'll confirm your reservation shortly via email." 
-          : "Confirmaremos tu reserva en breve por correo electrónico.",
+          : "Confirmaremos tu reserva en breve por correo electrónico.");
+
+      toast({
+        title: successMessage,
+        description: descriptionMessage,
       });
 
       // Reset form
@@ -111,16 +145,30 @@ export default function ReservationForm() {
       });
       setDate(undefined);
       setReservationType("table");
+      setSubmissionAttempts(0);
       
     } catch (error) {
       console.error('Error submitting reservation:', error);
+      
+      // Show detailed error message
       toast({
         title: language === "en" ? "Submission Error" : "Error de Envío",
-        description: language === "en"
-          ? "There was a problem submitting your reservation. Please try again."
-          : "Hubo un problema al enviar tu reserva. Por favor, inténtalo de nuevo.",
+        description: error.message || 
+          (language === "en"
+            ? "There was a problem submitting your reservation. Please try again."
+            : "Hubo un problema al enviar tu reserva. Por favor, inténtalo de nuevo."),
         variant: "destructive"
       });
+      
+      // If this is the third failed attempt, suggest contacting directly
+      if (submissionAttempts >= 2) {
+        toast({
+          title: language === "en" ? "Need Help?" : "¿Necesitas ayuda?",
+          description: language === "en"
+            ? "You may want to contact us directly at (415) 555-0123 to make your reservation."
+            : "Puedes contactarnos directamente al (415) 555-0123 para hacer tu reserva.",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -339,9 +387,14 @@ export default function ReservationForm() {
         className="w-full btn-hover"
         disabled={isSubmitting}
       >
-        {isSubmitting 
-          ? (language === "en" ? "Processing..." : "Procesando...") 
-          : translations.contact.submitButton}
+        {isSubmitting ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            {language === "en" ? "Processing..." : "Procesando..."}
+          </>
+        ) : (
+          translations.contact.submitButton
+        )}
       </Button>
     </form>
   );
