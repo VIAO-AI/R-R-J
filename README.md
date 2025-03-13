@@ -1,3 +1,4 @@
+
 # El Rincon de Jorgito - Web App
 
 ## Description
@@ -12,6 +13,7 @@ El Rincon de Jorgito is a modern and functional web platform for a Peruvian rest
 - "JorgitoRewards" loyalty program.
 - Modern and optimized interface.
 - Reservation management integrated with Supabase and Vercel.
+- Automated Edge Function deployment via GitHub Actions.
 
 ## Installation and Setup
 
@@ -36,6 +38,17 @@ El Rincon de Jorgito is a modern and functional web platform for a Peruvian rest
    ```sh
    npm run dev
    ```
+
+## GitHub Actions Deployment Setup
+
+The project is configured to automatically deploy Supabase Edge Functions using GitHub Actions. To set this up:
+
+1. In your GitHub repository, go to Settings > Secrets and Variables > Actions
+2. Add the following secrets:
+   - `SUPABASE_ACCESS_TOKEN`: Your Supabase access token
+   - `RESEND_API_KEY`: Your Resend API key (if using Resend for emails)
+3. When you push changes to the `main` branch that affect files in `supabase/functions/handle-reservation`, 
+   GitHub Actions will automatically deploy the updated Edge Function.
 
 ## Project Structure
 
@@ -67,10 +80,15 @@ el-rincon-digital-main/
 │   │   ├── About.tsx       # Página "Sobre Nosotros"
 │   │   ├── Contact.tsx     # Página de contacto
 │   │   ├── Menu.tsx        # Página del menú
+│   │   ├── Admin.tsx       # Panel de administración
 │   │   ├── NotFound.tsx    # Página 404
 │   │
 │   ├── App.tsx             # Componente raíz
 │   ├── main.tsx            # Punto de entrada principal
+│
+│── .github/                # Configuración de GitHub Actions
+│   ├── workflows/
+│   │   ├── deploy-edge-functions.yml
 │
 │── .gitignore              # Archivos ignorados por Git
 │── package.json            # Dependencias del proyecto
