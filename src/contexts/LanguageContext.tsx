@@ -33,7 +33,7 @@ const defaultContext: LanguageContextType = {
   language: 'es',
   setLanguage: () => {},
   toggleLanguage: () => {},
-  translations: esTranslation // Initialize with esTranslation to avoid undefined
+  translations: {}
 };
 
 const LanguageContext = createContext<LanguageContextType>(defaultContext);
@@ -66,16 +66,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
-  // Make sure translations is never undefined
-  const safeTranslations = translations || (language === 'en' ? enTranslation : esTranslation);
-
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage, 
-      toggleLanguage, 
-      translations: safeTranslations 
-    }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, translations }}>
       {children}
     </LanguageContext.Provider>
   );
