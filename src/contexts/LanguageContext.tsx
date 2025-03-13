@@ -25,12 +25,14 @@ i18next.use(initReactI18next).init({
 interface LanguageContextType {
   language: string;
   setLanguage: (language: string) => void;
+  toggleLanguage: () => void;
   translations: any;
 }
 
 const defaultContext: LanguageContextType = {
   language: 'es',
   setLanguage: () => {},
+  toggleLanguage: () => {},
   translations: {}
 };
 
@@ -39,6 +41,11 @@ const LanguageContext = createContext<LanguageContextType>(defaultContext);
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState('es');
   const [translations, setTranslations] = useState(esTranslation);
+
+  // Add toggleLanguage function to switch between 'en' and 'es'
+  const toggleLanguage = () => {
+    setLanguage(prevLang => prevLang === 'en' ? 'es' : 'en');
+  };
 
   useEffect(() => {
     // Change language in i18next when language state changes
@@ -60,7 +67,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, translations }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, translations }}>
       {children}
     </LanguageContext.Provider>
   );
