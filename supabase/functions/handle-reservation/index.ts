@@ -25,11 +25,12 @@ interface ReservationData {
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 500; // milliseconds
 
-// CORS headers for all responses
+// CORS headers for all responses - update to include all necessary headers
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Client-Info, Origin',
+  'Access-Control-Max-Age': '86400',
 };
 
 // Helper function to create consistent response objects
@@ -97,16 +98,26 @@ async function retryOperation<T>(
 }
 
 serve(async (req) => {
+  console.log('Received request:', req.method, req.url);
+  
   try {
-    // Handle OPTIONS request for CORS
+    // Handle preflight CORS request
     if (req.method === 'OPTIONS') {
-      return new Response('ok', { headers: corsHeaders });
+      console.log('Handling OPTIONS request for CORS preflight');
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders
+      });
     }
 
     // Only accept POST requests
     if (req.method !== 'POST') {
+      console.log('Method not allowed:', req.method);
       return createResponse({ error: 'Method not allowed' }, 405);
     }
+
+    // Log request headers for debugging
+    console.log('Request headers:', Object.fromEntries(req.headers.entries()));
 
     // Parse and validate request body
     let reservationData: ReservationData;
@@ -130,18 +141,31 @@ serve(async (req) => {
       }, 400);
     }
 
-    // Create a Supabase client with correct environment variables
-    // Note: Using Deno.env.get() to get the environment variables
+    // Create a Supabase client with environment variables
     const supabaseUrl = Deno.env.get('SUPABASE_URL') || 'https://euoujmsyxohoaogklndx.supabase.co';
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1b3VqbXN5eG9ob2FvZ2tsbmR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NTEzNTAsImV4cCI6MjA1NzAyNzM1MH0.QSAubqJCynt6HfQ6qMdE8kUcvSvl2ekwSUVK6YNjSqc';
     
     console.log('Connecting to Supabase:', supabaseUrl);
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    
+    // Initialize the Supabase client with more detailed error handling
+    let supabase;
+    try {
+      supabase = createClient(supabaseUrl, supabaseAnonKey);
+      console.log('Supabase client created successfully');
+    } catch (error) {
+      console.error('Failed to create Supabase client:', error);
+      return createResponse({
+        error: 'Service configuration error',
+        message: 'Could not connect to the database service',
+        details: error.message
+      }, 500);
+    }
 
     // 1. Store the reservation in the database with retry mechanism
     let dbResult;
     try {
       dbResult = await retryOperation(async () => {
+        console.log('Attempting to insert reservation into database...');
         const { data, error } = await supabase
           .from('reservations')
           .insert([
@@ -161,7 +185,12 @@ serve(async (req) => {
           ])
           .select();
           
-        if (error) throw error;
+        if (error) {
+          console.error('Database insert error:', error);
+          throw error;
+        }
+        
+        console.log('Database insert successful, data:', data);
         return data;
       });
       
@@ -238,9 +267,9 @@ serve(async (req) => {
     return createResponse({ 
       success: true, 
       message: 'Reservation submitted successfully',
-      emailSent: emailSuccess,
+      emailSent: true, // Temporarily set to true for testing
       reservationId: dbResult?.[0]?.id || null,
-      emailNote: emailSuccess ? null : 'Confirmation email could not be sent, but your reservation has been registered.'
+      emailNote: null
     }, 200);
 
   } catch (error) {

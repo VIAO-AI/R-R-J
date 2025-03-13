@@ -86,33 +86,39 @@ export default function ReservationForm() {
     try {
       console.log('Submitting reservation:', reservationData);
       
+      // Add a timeout to the fetch request to prevent hanging
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
       const response = await fetch('https://euoujmsyxohoaogklndx.supabase.co/functions/v1/handle-reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Origin': window.location.origin,
         },
         body: JSON.stringify(reservationData),
+        signal: controller.signal,
+        mode: 'cors', // Explicitly set CORS mode
       });
+      
+      clearTimeout(timeoutId);
+
+      // If fetch returned but with an error status
+      if (!response.ok) {
+        const responseData = await response.json().catch(() => ({
+          message: language === "en" 
+            ? "Server returned an error without details" 
+            : "El servidor devolvió un error sin detalles"
+        }));
+            
+        throw new Error(responseData.message || 
+          (language === "en" 
+            ? "Failed to submit reservation. Please try again." 
+            : "Error al enviar la reserva. Por favor, inténtalo de nuevo."));
+      }
 
       const responseData = await response.json();
       console.log('Reservation response:', responseData);
-
-      if (!response.ok) {
-        // Handle specific error cases based on response body
-        let errorMessage = responseData.message || 
-          (language === "en" 
-            ? "Failed to submit reservation. Please try again." 
-            : "Error al enviar la reserva. Por favor, inténtalo de nuevo.");
-            
-        if (responseData.error === "Validation error") {
-          errorMessage = responseData.message || 
-            (language === "en" 
-              ? "Please check your information and try again." 
-              : "Por favor revisa tu información e inténtalo de nuevo.");
-        }
-        
-        throw new Error(errorMessage);
-      }
 
       // Check if email was sent successfully
       const successMessage = language === "en" 
@@ -150,13 +156,21 @@ export default function ReservationForm() {
     } catch (error) {
       console.error('Error submitting reservation:', error);
       
-      // Show detailed error message
+      // Determine if it's a network error
+      const isNetworkError = error.name === 'TypeError' && 
+        (error.message === 'Failed to fetch' || error.message === 'NetworkError' || error.message === 'The user aborted a request');
+      
+      // Show appropriate error message
       toast({
         title: language === "en" ? "Submission Error" : "Error de Envío",
-        description: error.message || 
-          (language === "en"
-            ? "There was a problem submitting your reservation. Please try again."
-            : "Hubo un problema al enviar tu reserva. Por favor, inténtalo de nuevo."),
+        description: isNetworkError 
+          ? (language === "en"
+            ? "There seems to be a network issue. Please check your internet connection and try again."
+            : "Parece haber un problema de red. Por favor verifica tu conexión a internet e inténtalo de nuevo.")
+          : (error.message || 
+            (language === "en"
+              ? "There was a problem submitting your reservation. Please try again."
+              : "Hubo un problema al enviar tu reserva. Por favor, inténtalo de nuevo.")),
         variant: "destructive"
       });
       
