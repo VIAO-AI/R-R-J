@@ -25,22 +25,20 @@ interface ReservationData {
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 500; // milliseconds
 
-// CORS headers for all responses - update to include all necessary headers
+// CORS headers - Configured to accept requests from any origin
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Client-Info, Origin',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Origin, X-Requested-With, Accept, Authorization, X-Client-Info',
   'Access-Control-Max-Age': '86400',
+  'Content-Type': 'application/json',
 };
 
 // Helper function to create consistent response objects
 function createResponse(body: any, status: number) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: {
-      'Content-Type': 'application/json',
-      ...corsHeaders
-    }
+    headers: corsHeaders
   });
 }
 
@@ -100,16 +98,16 @@ async function retryOperation<T>(
 serve(async (req) => {
   console.log('Received request:', req.method, req.url);
   
-  try {
-    // Handle preflight CORS request
-    if (req.method === 'OPTIONS') {
-      console.log('Handling OPTIONS request for CORS preflight');
-      return new Response(null, {
-        status: 204,
-        headers: corsHeaders
-      });
-    }
+  // Handle preflight CORS request
+  if (req.method === 'OPTIONS') {
+    console.log('Handling OPTIONS request for CORS preflight');
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders
+    });
+  }
 
+  try {
     // Only accept POST requests
     if (req.method !== 'POST') {
       console.log('Method not allowed:', req.method);
@@ -204,7 +202,7 @@ serve(async (req) => {
       }, 500);
     }
 
-    // 2. Send an email notification using Resend only after successful DB insertion
+    // 2. Send an email notification using Resend
     const resendApiKey = Deno.env.get('RESEND_API_KEY') || "re_123456789";
     const adminEmail = 'restaurantdejorgitoadm@gmail.com';
     
@@ -233,6 +231,8 @@ serve(async (req) => {
     let emailSuccess = false;
     try {
       await retryOperation(async () => {
+        console.log('Attempting to send email notification...');
+        
         const emailResponse = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
@@ -247,14 +247,16 @@ serve(async (req) => {
           })
         });
 
+        console.log('Email API response status:', emailResponse.status);
+        const responseText = await emailResponse.text();
+        console.log('Email API response:', responseText);
+
         if (!emailResponse.ok) {
-          const emailError = await emailResponse.text();
-          console.error('Error sending email:', emailError);
-          throw new Error(`Email sending failed: ${emailError}`);
+          throw new Error(`Email sending failed: ${responseText}`);
         }
         
         emailSuccess = true;
-        return await emailResponse.json();
+        return JSON.parse(responseText);
       });
       
       console.log('Email notification sent successfully');
@@ -267,9 +269,8 @@ serve(async (req) => {
     return createResponse({ 
       success: true, 
       message: 'Reservation submitted successfully',
-      emailSent: true, // Temporarily set to true for testing
-      reservationId: dbResult?.[0]?.id || null,
-      emailNote: null
+      emailSent: emailSuccess,
+      reservationId: dbResult?.[0]?.id || null
     }, 200);
 
   } catch (error) {

@@ -1,172 +1,69 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
 
-// English translations
-const enTranslations = {
-  nav: {
-    home: "Home",
-    menu: "Menu",
-    about: "About Us",
-    contact: "Contact",
-    reservation: "Reserve a Table"
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import enTranslation from '../locales/en.json';
+import esTranslation from '../locales/es.json';
+
+// Initialize i18next
+i18next.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: enTranslation
+    },
+    es: {
+      translation: esTranslation
+    }
   },
-  hero: {
-    subtitle: "Authentic Peruvian Cuisine",
-    title: "El Rincón de Jorgito",
-    description: "Experience the genuine flavors of Peru in the heart of San Francisco. Our carefully crafted dishes bring the essence of Peruvian culinary tradition to your table.",
-    cta: "Reserve a Table"
-  },
-  about: {
-    subtitle: "Our Story",
-    title: "A Taste of Peru in San Francisco",
-    story: "El Rincón de Jorgito began with a simple vision: to share the rich culinary heritage of Peru with San Francisco. Founded by Jorge Mendoza in 2015, our restaurant combines traditional techniques with locally sourced ingredients to create an authentic yet innovative dining experience.",
-    vision: "Every dish tells a story of Peru's diverse cultural influences – from indigenous Andean traditions to Spanish, African, Chinese, and Japanese cuisines that have shaped Peru's gastronomic landscape.",
-    chef: "About the Chef",
-    chefDesc: "Chef Jorge Mendoza brings over 20 years of experience, having trained in Lima's finest restaurants before bringing his expertise to California. His passion for Peruvian flavors and dedication to culinary excellence defines every aspect of El Rincón de Jorgito."
-  },
-  menu: {
-    subtitle: "Our Offerings",
-    title: "Menu",
-    starters: "Starters",
-    mains: "Main Courses",
-    desserts: "Desserts",
-    drinks: "Beverages"
-  },
-  contact: {
-    subtitle: "Get in Touch",
-    title: "Visit Us",
-    description: "We'd love to hear from you. Contact us for reservations or inquiries about our menu, events, or catering services.",
-    addressTitle: "Address",
-    address: "1850 Cesar Chavez St, San Francisco, CA 94107",
-    hours: "Opening Hours",
-    weekdays: "Monday - Thursday: 11:30am - 10pm",
-    weekend: "Friday - Sunday: 11:30am - 11pm",
-    phoneTitle: "Phone",
-    phone: "(415) 555-0123",
-    email: "Email",
-    emailAddress: "info@rinconjorgito.com",
-    formTitle: "Make a Reservation",
-    formDescription: "Reserve your table or event space today. For large parties or special events, we recommend booking at least a week in advance.",
-    nameLabel: "Full Name",
-    emailLabel: "Email Address",
-    dateLabel: "Date",
-    timeLabel: "Time",
-    guestsLabel: "Number of Guests",
-    messageLabel: "Special Requests",
-    submitButton: "Reserve Now"
-  },
-  payment: {
-    title: "Payment Methods",
-    desc: "We accept various payment methods for your convenience",
-    applePay: "Apple Pay",
-    creditCard: "Credit Card",
-    cash: "Cash"
-  },
-  footer: {
-    rights: "All Rights Reserved",
-    privacy: "Privacy Policy",
-    terms: "Terms of Service"
+  lng: 'es', // Default language
+  fallbackLng: 'es',
+  interpolation: {
+    escapeValue: false
   }
-};
-
-// Spanish translations
-const esTranslations = {
-  nav: {
-    home: "Inicio",
-    menu: "Menú",
-    about: "Nosotros",
-    contact: "Contacto",
-    reservation: "Reservar Mesa"
-  },
-  hero: {
-    subtitle: "Auténtica Cocina Peruana",
-    title: "El Rincón de Jorgito",
-    description: "Experimenta los auténticos sabores de Perú en el corazón de San Francisco. Nuestros platos cuidadosamente elaborados traen la esencia de la tradición culinaria peruana a tu mesa.",
-    cta: "Reservar Mesa"
-  },
-  about: {
-    subtitle: "Nuestra Historia",
-    title: "Un Sabor de Perú en San Francisco",
-    story: "El Rincón de Jorgito comenzó con una visión simple: compartir la rica herencia culinaria de Perú con San Francisco. Fundado por Jorge Mendoza en 2015, nuestro restaurante combina técnicas tradicionales con ingredientes locales para crear una experiencia gastronómica auténtica e innovadora.",
-    vision: "Cada plato cuenta una historia de las diversas influencias culturales de Perú – desde las tradiciones andinas indígenas hasta las cocinas española, africana, china y japonesa que han dado forma al panorama gastronómico de Perú.",
-    chef: "Sobre el Chef",
-    chefDesc: "El Chef Jorge Mendoza aporta más de 20 años de experiencia, habiéndose formado en los mejores restaurantes de Lima antes de traer su experiencia a California. Su pasión por los sabores peruanos y su dedicación a la excelencia culinaria define cada aspecto de El Rincón de Jorgito."
-  },
-  menu: {
-    subtitle: "Nuestras Opciones",
-    title: "Menú",
-    starters: "Entradas",
-    mains: "Platos Principales",
-    desserts: "Postres",
-    drinks: "Bebidas"
-  },
-  contact: {
-    subtitle: "Contáctanos",
-    title: "Visítanos",
-    description: "Nos encantaría saber de ti. Contáctanos para reservas o consultas sobre nuestro menú, eventos o servicios de catering.",
-    addressTitle: "Dirección",
-    address: "1850 Cesar Chavez St, San Francisco, CA 94107",
-    hours: "Horario de Apertura",
-    weekdays: "Lunes - Jueves: 11:30am - 10pm",
-    weekend: "Viernes - Domingo: 11:30am - 11pm",
-    phoneTitle: "Teléfono",
-    phone: "(415) 555-0123",
-    email: "Correo Electrónico",
-    emailAddress: "info@rinconjorgito.com",
-    formTitle: "Hacer una Reserva",
-    formDescription: "Reserva tu mesa o espacio para eventos hoy. Para grupos grandes o eventos especiales, recomendamos reservar con al menos una semana de anticipación.",
-    nameLabel: "Nombre Completo",
-    emailLabel: "Correo Electrónico",
-    dateLabel: "Fecha",
-    timeLabel: "Hora",
-    guestsLabel: "Número de Invitados",
-    messageLabel: "Peticiones Especiales",
-    submitButton: "Reservar Ahora"
-  },
-  payment: {
-    title: "Métodos de Pago",
-    desc: "Aceptamos varios métodos de pago para tu conveniencia",
-    applePay: "Apple Pay",
-    creditCard: "Tarjeta de Crédito",
-    cash: "Efectivo"
-  },
-  footer: {
-    rights: "Todos los Derechos Reservados",
-    privacy: "Política de Privacidad",
-    terms: "Términos de Servicio"
-  }
-};
-
-type Language = "en" | "es";
-type Translations = typeof enTranslations;
+});
 
 interface LanguageContextType {
-  language: Language;
-  translations: Translations;
-  toggleLanguage: () => void;
+  language: string;
+  setLanguage: (language: string) => void;
+  translations: any;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const defaultContext: LanguageContextType = {
+  language: 'es',
+  setLanguage: () => {},
+  translations: {}
+};
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>("en");
-  
-  const translations = language === "en" ? enTranslations : esTranslations;
-  
-  const toggleLanguage = () => {
-    setLanguage(prevLang => prevLang === "en" ? "es" : "en");
-  };
-  
+const LanguageContext = createContext<LanguageContextType>(defaultContext);
+
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [language, setLanguage] = useState('es');
+  const [translations, setTranslations] = useState(esTranslation);
+
+  useEffect(() => {
+    // Change language in i18next when language state changes
+    i18next.changeLanguage(language);
+    
+    // Update translations state
+    setTranslations(language === 'en' ? enTranslation : esTranslation);
+    
+    // Save preference to localStorage
+    localStorage.setItem('language', language);
+  }, [language]);
+
+  // Load saved language on initial render
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'es')) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
   return (
-    <LanguageContext.Provider value={{ language, translations, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage, translations }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
-};
+export const useLanguage = () => useContext(LanguageContext);
