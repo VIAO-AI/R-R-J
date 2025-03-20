@@ -58,6 +58,11 @@ export default function ReservationForm() {
     }
   }, [state.succeeded, state.errors, toast, language]);
 
+  const handleSelectChange = (name: string, value: string) => {
+    if (state.submitting) return;
+    state.formData?.set(name, value);
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
@@ -180,6 +185,7 @@ export default function ReservationForm() {
               name="time"
               required
               disabled={state.submitting}
+              onValueChange={(value) => handleSelectChange("time", value)}
             >
               <SelectTrigger className="bg-card">
                 <SelectValue placeholder={language === "en" ? "Select time" : "Selecciona hora"} />
@@ -204,6 +210,7 @@ export default function ReservationForm() {
               name="guests"
               required
               disabled={state.submitting}
+              onValueChange={(value) => handleSelectChange("guests", value)}
             >
               <SelectTrigger className="bg-card">
                 <SelectValue placeholder={language === "en" ? "Guests" : "Invitados"} />
@@ -255,6 +262,7 @@ export default function ReservationForm() {
                 name="eventType"
                 required
                 disabled={state.submitting}
+                onValueChange={(value) => handleSelectChange("eventType", value)}
               >
                 <SelectTrigger className="bg-card">
                   <SelectValue placeholder={language === "en" ? "Select type" : "Selecciona tipo"} />
