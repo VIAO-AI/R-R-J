@@ -32,7 +32,7 @@ export default function ReservationForm() {
         variant: "destructive"
       });
     }
-  }, [state.submitting, date]);
+  }, [state.submitting, date, toast, language]);
 
   // Manejo de estados de Formspree
   useEffect(() => {
@@ -51,12 +51,12 @@ export default function ReservationForm() {
       toast({
         title: language === "en" ? "Error" : "Error",
         description: language === "en" 
-          ? "Error submitting form: " + state.errors[0].message
-          : "Error al enviar: " + state.errors[0].message,
+          ? `Error submitting form: ${state.errors[0].message}`
+          : `Error al enviar: ${state.errors[0].message}`,
         variant: "destructive"
       });
     }
-  }, [state.succeeded, state.errors]);
+  }, [state.succeeded, state.errors, toast, language]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -180,7 +180,6 @@ export default function ReservationForm() {
               name="time"
               required
               disabled={state.submitting}
-              onValueChange={(value) => {}}
             >
               <SelectTrigger className="bg-card">
                 <SelectValue placeholder={language === "en" ? "Select time" : "Selecciona hora"} />
@@ -205,7 +204,6 @@ export default function ReservationForm() {
               name="guests"
               required
               disabled={state.submitting}
-              onValueChange={(value) => {}}
             >
               <SelectTrigger className="bg-card">
                 <SelectValue placeholder={language === "en" ? "Guests" : "Invitados"} />
