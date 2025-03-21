@@ -1,0 +1,91 @@
+// File: /api/create-event.js
+
+import { google } from 'googleapis';
+import { NextResponse } from 'next/server';
+
+const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+
+// Reemplaza con tus credenciales
+const CLIENT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+const PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\n/g, '\n');
+const CALENDAR_ID = 'restaurantrincondejorgitoadm@gmail.com';
+
+const auth = new google.auth.JWT(
+  CLIENT_EMAIL,
+  null,
+  PRIVATE_KEY,
+  SCOPES
+);
+
+const calendar = google.calendar({ version: 'v3', auth });
+
+export async function POST(req) {
+  try {
+    const body = await req.json();
+
+    const {
+      name,
+      email,
+      date,
+      time,
+      reservationType,
+      guests,
+      message,
+      eventType,
+      attendees,
+      eventDescription
+    } = body;
+
+    const eventStart = new Date(`${date}T${time}:00`);
+    const eventEnd = new Date(eventStart);
+    eventEnd.setHours(eventEnd.getHours() + 2); // Duración estimada
+
+    const summary = reservationType === 'event'
+      ? `Evento: ${eventType} - ${name}`
+      : `Reserva de Mesa - ${name}`;
+
+    const description = `Tipo de Reserva: ${reservationType}\n` +
+      `Nombre: ${name}\n` +
+      `Email: ${email}\n` +
+      `Fecha: ${date}\n` +
+      `Hora: ${time}\n` +
+      `Invitados: ${guests}\n` +
+      (reservationType === 'event' ? `Asistentes: ${attendees}\nTipo Evento: ${eventType}\nDetalles: ${eventDescription}\n` : '') +
+      `Mensaje: ${message}`;
+
+    const event = {
+      summary,
+      description,
+      start: {
+        dateTime: eventStart.toISOString(),
+        timeZone: 'America/Argentina/Buenos_Aires'
+      },
+      end: {
+        dateTime: eventEnd.toISOString(),
+        timeZone: 'America/Argentina/Buenos_Aires'
+      },
+      attendees: [
+        { email },
+        { email: CALENDAR_ID }
+      ],
+      reminders: {
+        useDefault: false,
+        overrides: [
+          { method: 'email', minutes: 60 },
+          { method: 'popup', minutes: 30 }
+        ]
+      }
+    };
+
+    await calendar.events.insert({
+      calendarId: CALENDAR_ID,
+      requestBody: event,
+      sendUpdates: 'all'
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('Error creando el evento:', err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}
