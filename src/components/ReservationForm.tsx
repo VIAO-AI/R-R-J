@@ -1,5 +1,5 @@
 // components/ReservationForm.tsx
-import { useState } from "react";
+import React, { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Clave de API de Resend - En producción debe usarse una variable de entorno
+const RESEND_API_KEY = 're_e8FV1Fsr_BefqF1WHYnbjcHjndY21wLn3';
 
 export default function ReservationForm() {
   const { translations, language } = useLanguage();
@@ -40,15 +43,54 @@ export default function ReservationForm() {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("/api/google-calendar", {
+      // Primero, enviar a Google Calendar
+      const calendarRes = await fetch("/api/google-calendar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      const result = await res.json();
+      const calendarResult = await calendarRes.json();
 
-      if (result.success) {
+      // Ahora, enviar correo usando Resend API directamente
+      const subject = reservationType === 'event'
+        ? `Nueva Reserva de Evento: ${payload.eventType} - ${payload.name}`
+        : `Nueva Reserva de Mesa - ${payload.name}`;
+
+      const htmlContent = `
+        <h2>Se ha recibido una nueva reserva</h2>
+        <p><strong>Tipo de Reserva:</strong> ${reservationType === 'event' ? 'Evento' : 'Mesa'}</p>
+        <p><strong>Nombre:</strong> ${payload.name}</p>
+        <p><strong>Email:</strong> ${payload.email}</p>
+        <p><strong>Teléfono:</strong> ${payload.phone}</p>
+        <p><strong>Fecha:</strong> ${payload.date}</p>
+        <p><strong>Hora:</strong> ${payload.time}</p>
+        <p><strong>Invitados:</strong> ${payload.guests}</p>
+        ${reservationType === 'event' ? 
+          `<p><strong>Tipo de Evento:</strong> ${payload.eventType}</p>
+           <p><strong>Asistentes:</strong> ${payload.attendees}</p>
+           <p><strong>Detalles del Evento:</strong> ${payload.eventDescription}</p>` 
+          : ''}
+        <p><strong>Mensaje:</strong> ${payload.message || 'No hay mensaje'}</p>
+        <p>Desde: <a href="https://restaurantrincondejorgito.com">restaurantrincondejorgito.com</a></p>
+      `;
+
+      // Enviar correo usando la API de Resend
+      const emailRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${RESEND_API_KEY}`
+        },
+        body: JSON.stringify({
+          from: "New Reservation <onboarding@resend.dev>",
+          to: ["restaurantdejorgitoadm@gmail.com"],
+          subject: subject,
+          html: htmlContent
+        })
+      });
+
+      if (calendarResult.success && emailRes.ok) {
         toast({
           title: language === "en" ? "Success!" : "¡Éxito!",
           description: language === "en" ? "Reservation received successfully" : "Reserva recibida correctamente"
