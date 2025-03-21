@@ -44,13 +44,21 @@ export default function ReservationForm() {
 
     try {
       // Primero, enviar a Google Calendar
-      const calendarRes = await fetch("/api/google-calendar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+      try {
+        const calendarRes = await fetch("/api/google-calendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
 
-      const calendarResult = await calendarRes.json();
+        const calendarResult = await calendarRes.json();
+        if (!calendarResult.success) {
+          console.warn("No se pudo registrar en el calendario, pero continuaremos con el envío del correo");
+        }
+      } catch (calendarError) {
+        console.error("Error en la API de Google Calendar:", calendarError);
+        // Continuamos con el proceso a pesar del error en el calendario
+      }
 
       // Ahora, enviar correo usando Resend API directamente
       const subject = reservationType === 'event'
@@ -83,28 +91,35 @@ export default function ReservationForm() {
           "Authorization": `Bearer ${RESEND_API_KEY}`
         },
         body: JSON.stringify({
-          from: "New Reservation <onboarding@resend.dev>",
+          from: "onboarding@resend.dev",
           to: ["restaurantdejorgitoadm@gmail.com"],
           subject: subject,
-          html: htmlContent
+          html: htmlContent 
         })
       });
 
-      if (calendarResult.success && emailRes.ok) {
-        toast({
-          title: language === "en" ? "Success!" : "¡Éxito!",
-          description: language === "en" ? "Reservation received successfully" : "Reserva recibida correctamente"
-        });
-        setDate(undefined);
-        setReservationType("table");
-        e.currentTarget.reset();
-      } else {
-        throw new Error("Connection error. Please try again later.");
+      // Verificar la respuesta del correo independientemente del calendario
+      if (!emailRes.ok) {
+        const emailError = await emailRes.text();
+        console.error("Error de Resend:", emailError);
+        throw new Error(`Error al enviar el correo: ${emailError}`);
       }
+
+      // Si llegamos aquí, el correo se envió correctamente
+      toast({
+        title: language === "en" ? "Success!" : "¡Éxito!",
+        description: language === "en" ? "Reservation received successfully" : "Reserva recibida correctamente"
+      });
+      setDate(undefined);
+      setReservationType("table");
+      e.currentTarget.reset();
     } catch (error: any) {
+      console.error("Error completo:", error);
       toast({
         title: language === "en" ? "Error" : "Error",
-        description: language === "en" ? "Internet connection error. Please try again later." : "Error de conexión a internet. Intenta nuevamente más tarde.",
+        description: error.message || (language === "en" ? 
+          "There was a problem processing your reservation. Please try again." : 
+          "Hubo un problema al procesar tu reserva. Por favor intenta nuevamente."),
         variant: "destructive"
       });
     } finally {
