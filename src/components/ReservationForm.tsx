@@ -60,7 +60,8 @@ export default function ReservationForm() {
         // Continuamos con el proceso a pesar del error en el calendario
       }
 
-      // Ahora, enviar correo usando Resend API directamente
+      // Ahora, enviar correo usando la función de Supabase ya existente en el proyecto
+      // que tiene habilitado CORS y puede manejar la comunicación con Resend
       const subject = reservationType === 'event'
         ? `Nueva Reserva de Evento: ${payload.eventType} - ${payload.name}`
         : `Nueva Reserva de Mesa - ${payload.name}`;
@@ -83,25 +84,27 @@ export default function ReservationForm() {
         <p>Desde: <a href="https://restaurantrincondejorgito.com">restaurantrincondejorgito.com</a></p>
       `;
 
-      // Enviar correo usando la API de Resend
-      const emailRes = await fetch("https://api.resend.com/emails", {
+      // Usar la URL de la función de Supabase para enviar el correo
+      const emailRes = await fetch("https://euoujmsyxohoaogklndx.supabase.co/functions/v1/handle-reservation", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${RESEND_API_KEY}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          from: "onboarding@resend.dev",
-          to: ["restaurantdejorgitoadm@gmail.com"],
-          subject: subject,
-          html: htmlContent 
+          customerName: payload.name,
+          email: payload.email,
+          items: {
+            ...payload,
+            emailContent: htmlContent,
+            subject: subject
+          }
         })
       });
 
-      // Verificar la respuesta del correo independientemente del calendario
+      // Verificar la respuesta del correo
       if (!emailRes.ok) {
         const emailError = await emailRes.text();
-        console.error("Error de Resend:", emailError);
+        console.error("Error al enviar el correo:", emailError);
         throw new Error(`Error al enviar el correo: ${emailError}`);
       }
 
