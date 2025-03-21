@@ -1,5 +1,5 @@
 // components/ReservationForm.tsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,7 +40,7 @@ export default function ReservationForm() {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("/api/create-event", {
+      const res = await fetch("/api/google-calendar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -57,12 +57,12 @@ export default function ReservationForm() {
         setReservationType("table");
         e.currentTarget.reset();
       } else {
-        throw new Error(result.error);
+        throw new Error("Connection error. Please try again later.");
       }
     } catch (error: any) {
       toast({
         title: language === "en" ? "Error" : "Error",
-        description: error.message,
+        description: language === "en" ? "Internet connection error. Please try again later." : "Error de conexión a internet. Intenta nuevamente más tarde.",
         variant: "destructive"
       });
     } finally {
@@ -85,7 +85,6 @@ export default function ReservationForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      {/* Tipo de reserva */}
       <div className="space-y-2">
         <Label>{language === "en" ? "Reservation Type" : "Tipo de Reserva"}</Label>
         <Select value={reservationType} onValueChange={(val) => setReservationType(val as any)} disabled={submitting}>
@@ -111,6 +110,11 @@ export default function ReservationForm() {
           </div>
         </div>
 
+        <div className="space-y-2">
+          <Label htmlFor="phone">{language === "en" ? "Phone Number" : "Teléfono"}</Label>
+          <Input name="phone" type="tel" required disabled={submitting} className="bg-card" />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label>{translations.contact.dateLabel}</Label>
@@ -128,11 +132,11 @@ export default function ReservationForm() {
           </div>
           <div className="space-y-2">
             <Label>{translations.contact.timeLabel}</Label>
-            {renderSelect("time", ["18:00", "18:30", "19:00", "19:30", "20:00"], language === "en" ? "Select time" : "Selecciona hora")}
+            {renderSelect("time", ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"], language === "en" ? "Select time" : "Selecciona hora")}
           </div>
           <div className="space-y-2">
             <Label>{translations.contact.guestsLabel}</Label>
-            {renderSelect("guests", ["1", "2", "3", "4", "5", "6", "7"], language === "en" ? "Guests" : "Invitados")}
+            {renderSelect("guests", ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], language === "en" ? "Guests" : "Invitados")}
           </div>
         </div>
 
